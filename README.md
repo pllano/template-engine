@@ -1,4 +1,4 @@
-# \Pllano\Adapter\TemplateEngine
+# Pllano\Adapter\TemplateEngine
 Support for popular templates engine for the Slim Framework or API Shop
 
 Поддержка популярных шаблонизаторов для Slim Framework или API Shop
