@@ -16,7 +16,7 @@ Support for popular templates engine for the Slim Framework or API Shop
 $config['template']['front_end']['template_engine'] = 'twig';
 // или: blade, smarty, mustache, phprenderer, volt, dwoo
 ```
-### Конфигурация для шаблонизаторов
+### Конфигурация `config.json`
 ```json
 {
   "settings": {
