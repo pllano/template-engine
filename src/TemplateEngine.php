@@ -13,16 +13,17 @@
  
 namespace Pllano\Adapter;
  
+use Slim\Views\PhpRenderer;
+ 
 class TemplateEngine
 {
     private $config;
     private $options;
-    private $path = __DIR__ . '/';
     private $loader;
     private $response;
     private $render;
     private $view;
-    private $processor;
+    private $template_engine;
     private $driver;
     private $template;
     private $install = null;
@@ -33,20 +34,22 @@ class TemplateEngine
         if(isset($config)) {
             $this->config = $config;
         }
-        // Подключаем конфиг из конструктора
         if(isset($template)) {
             $this->template = $template;
-        }
+        } else {
+		    $this->template = $this->config['template']['front_end']['themes']['template'];
+		}
         // Подключаем конфиг из конструктора
         if(isset($config['settings']["install"]["status"])) {
             $this->install = $config['settings']["install"]["status"];
         }
         // Получаем название шаблонизатора
-        if (isset($this->config['template']['front_end']['processor'])) {
-            $this->processor = $this->config['template']['front_end']['processor'];
+        if (isset($this->config['template']['front_end']['template_engine'])) {
+            $this->template_engine = $this->config['template']['front_end']['template_engine'];
         } else {
-            $this->processor = 'twig';
+            $this->template_engine = 'twig';
         }
+ 
         $this->driver();
     }
  
@@ -59,17 +62,17 @@ class TemplateEngine
         if(isset($view)) {
             $this->view = $view;
         }
-        $processor = strtolower($this->processor);
-        if ($processor == 'twig') {
+        $template_engine = strtolower($this->template_engine);
+        if ($template_engine == 'twig') {
             return $this->driver->render($this->render, $this->view);
-        } elseif ($processor == 'blade') {
+        } elseif ($template_engine == 'blade') {
             return null;
-        } elseif ($processor == 'smarty') {
+        } elseif ($template_engine == 'smarty') {
             return null;
-        } elseif ($processor == 'mustache') {
+        } elseif ($template_engine == 'mustache') {
             return null;
-        } elseif ($processor == 'phprenderer') {
-            return null;
+        } elseif ($template_engine == 'phprenderer') {
+            return $this->driver->render($this->response, $this->render, $this->view);
         } else {
             return null;
         }
@@ -78,28 +81,30 @@ class TemplateEngine
     public function driver()
     {
         $themes = $this->config['template']['front_end']['themes'];
-        $processor = strtolower($this->processor);
+        $template_engine = strtolower($this->template_engine);
         $cache = false;
         $strict_variables = false;
+		
+		$layouts = $this->config["settings"]["themes"]["front_end_dir"]."/".$themes['templates']."/".$this->template."/layouts";
  
         if ($this->install != null) {
-            if ($processor == 'twig') {
+            if ($template_engine == 'twig') {
                 if (isset($this->config['cache']['twig']['state'])) {
                     if ((int)$this->config['cache']['twig']['state'] == 1) {
                         $cache = __DIR__ .''.$this->config['cache']['twig']['cache_dir'];
                         $strict_variables = $this->config['cache']['twig']['strict_variables'];
                     }
                 }
-                $loader = new \Twig_Loader_Filesystem($this->config["settings"]["themes"]["front_end_dir"]."/".$themes['templates']."/".$this->template."/layouts");
+                $loader = new \Twig_Loader_Filesystem($layouts);
                 $this->driver = new \Twig_Environment($loader, ['cache' => $cache, 'strict_variables' => $strict_variables]);
-            } elseif ($processor == 'blade') {
+            } elseif ($template_engine == 'blade') {
                 $this->driver = null;
-            } elseif ($processor == 'smarty') {
+            } elseif ($template_engine == 'smarty') {
                 $this->driver = null;
-            } elseif ($processor == 'mustache') {
+            } elseif ($template_engine == 'mustache') {
                 $this->driver = null;
-            } elseif ($processor == 'phprenderer') {
-                $this->driver = null;
+            } elseif ($template_engine == 'phprenderer') {
+                $this->driver = new PhpRenderer($layouts);
             } else {
                 $this->driver = null;
             }
@@ -112,13 +117,5 @@ class TemplateEngine
  
     }
  
-    public function set_path($path = null)
-    {
-        if(isset($path)) {
-            $this->path = $path;
-        }
-        
-    }
-
 }
  
