@@ -1,12 +1,13 @@
 # \Pllano\Adapter\TemplateEngine
 Поддержка популярных шаблонизаторов для Slim Framework или API Shop
-## Поддерживаемые шаблонизаторы: 
-- `Twig`
-- `Smarty`
-- `Blade`
-- `Mustache`
-- `PhpRenderer`
-
+## Планируется поддержка всех популярных шаблонизаторов: 
+- `Twig` - по умолчанию
+- `Blade` - в разработке
+- `Smarty` - в разработке
+- `Mustache` - в разработке
+- `Volt` - в разработке
+- `Dwoo` - в разработке
+- `PhpRenderer` - в разработке
 ## Использование
 Для переключения шаблонизатора достаточно передать его название конструктору в массиве конфигурации
 ```php
@@ -19,6 +20,10 @@ $config['template']['front_end']['template_engine'] = 'smarty';
 $config['template']['front_end']['template_engine'] = 'mustache';
 // или
 $config['template']['front_end']['template_engine'] = 'phprenderer';
+// или
+$config['template']['front_end']['template_engine'] = 'volt';
+// или
+$config['template']['front_end']['template_engine'] = 'dwoo';
 ```
 ### Twig
 ```php
