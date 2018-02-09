@@ -14,7 +14,7 @@
 namespace Pllano\Adapter;
  
 use Psr\Http\Message\ResponseInterface as Response;
-use Pllano\Adapter\PhpRenderer;
+use Pllano\Adapter\Renderer\PhpRenderer;
  
 class TemplateEngine
 {

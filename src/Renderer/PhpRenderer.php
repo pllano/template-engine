@@ -1,5 +1,5 @@
 <?php
-/**
+	/**
  * This file is part of the API SHOP
  *
  * @license http://opensource.org/licenses/MIT
@@ -17,14 +17,15 @@
  * @copyright Copyright (c) 2011-2015 Josh Lockhart
  * @license   https://github.com/slimphp/PHP-View/blob/master/LICENSE.md (MIT License)
  */
+ 
 namespace Pllano\Adapter\Renderer;
-
+ 
 use \InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class PhpRenderer
- * @package Pllano\Adapter
+ * @package Slim\Views
  *
  * Render PHP view scripts into a PSR-7 Response object
  */
