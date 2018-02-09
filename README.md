@@ -27,7 +27,59 @@ $config['template']['front_end']['template_engine'] = 'volt';
 // или
 $config['template']['front_end']['template_engine'] = 'dwoo';
 ```
-### Twig
+### Конфигурация для шаблонизаторов
+```json
+{
+  "settings": {
+    "debug": 0,
+    "displayErrorDetails": 0
+  },
+  "template": {
+    "front_end": {
+      "template_engine": "twig",
+      "themes": {
+        "template": "mini-mo",
+        "templates": "templates",
+        "dir_name": "\/..\/..\/themes"
+      }
+    },
+    "back_end": {
+      "template_engine": "twig",
+      "themes": {
+        "template": "admin",
+        "templates": "templates",
+        "dir_name": "\/..\/..\/themes"
+      }
+    }
+    "twig": {
+      "cache_state": 0,
+      "strict_variables": 0,
+      "cache_dir": "\/..\/..\/cache\/_twig_cache"
+    },
+    "blade": {
+      "cache_state": 0,
+      "strict_variables": 0,
+      "cache_dir": "\/..\/..\/cache\/_twig_cache"
+    },
+    "smarty": {
+      "cache_state": 0,
+      "cache_dir": 0,
+      "compile_dir": 0,
+      "plugins_dir": 0
+    },
+    "mustache": {
+      "cache_state": 0
+    },
+    "volt": {
+      "cache_state": 0
+    },
+    "dwoo": {
+      "cache_state": 0
+    }
+  }
+}
+```
+### Конфигурация для шаблонизаторов
 ```php
 require __DIR__ . '/../vendor/autoload.php';
  
@@ -36,40 +88,13 @@ use Slim\Http\Response;
 use Pllano\Adapter\TemplateEngine as Template;
  
 // Конфигурация Slim
-$settings = [
-    "debug" => true,
-    "displayErrorDetails" => true
-];
- 
+$settings = json_decode(file_get_contents(__DIR__ . '/config.json'), true);
 $app = new \Slim\App($settings);
- 
 $container = $app->getContainer();
- 
 $container['view'] = function () {
-    // Конфигурация для шаблонизаторов
-    $config = [
-        "template" => [
-            "front_end" => [
-                "template_engine" => "twig",
-                "themes" => [
-                    "template" => 'template_name',
-                    "templates" => 'templates',
-                    "dir" => __DIR__ . '/../../../../themes'
-                ]
-            ],
-            "twig" => [
-                    "cache" => [
-                    "state" => true,
-                    "dir" => __DIR__ . '/cache/_twig_cache'
-                ],
-                "strict_variables" => true
-            ]
-        ]
-    ];
- 
-    return new Template($config);
+    $settings = $get->settings();
+    return new Template($settings);
 };
- 
 $app->get('/hello/{name}', function (Request $request, Response $response, array $args) {
     // Название файла для рендера
     $render = 'file_name.twig';
