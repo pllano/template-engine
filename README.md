@@ -87,7 +87,7 @@ $app->run();
 </html>
 ```
 ### PhpRenderer
-``` html
+``` phtml
 <!DOCTYPE html>
 <html lang="en">
     <body>
