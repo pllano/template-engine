@@ -57,7 +57,8 @@ $app->get('/hello/{name}', function (Request $request, Response $response, array
 
 $app->run();
 ```
-### Twig - Вывод в шаблоне `file_name.html`
+## Вывод в шаблоне
+### Twig
 ``` html
 <!DOCTYPE html>
 <html lang="en">
@@ -66,7 +67,7 @@ $app->run();
     </body>
 </html>
 ```
-### Smarty - Вывод в шаблоне `file_name.tpl`
+### Smarty
 ``` html
 <!DOCTYPE html>
 <html lang="en">
@@ -75,7 +76,7 @@ $app->run();
     </body>
 </html>
 ```
-### Blade - Вывод в шаблоне `file_name.php`
+### Blade
 ``` html
 <!DOCTYPE html>
 <html lang="en">
@@ -84,7 +85,7 @@ $app->run();
     </body>
 </html>
 ```
-### Конфигурация `config.json`
+## Конфигурация `config.json`
 ```json
 {
     "settings": {
