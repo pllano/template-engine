@@ -88,6 +88,7 @@ $container = $app->getContainer();
  
 $container['view'] = function () {
     $settings = json_decode(file_get_contents(__DIR__ . '/../../config.json'), true);
+    // Изменить после получения конфигурации
     $settings['template']['front_end']['template_engine'] = 'twig';
     // или: blade, smarty, mustache, phprenderer, volt, dwoo
     return new Template($settings);
