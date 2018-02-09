@@ -36,14 +36,14 @@ $container['view'] = function () {
                     "templates" => 'templates',
                     "dir" => __DIR__ . '/../../../../themes'
                 ]
-            ]
-        ],
-        "twig" => [
-            "cache" => [
-                "state" => true,
-                "dir" => __DIR__ . '/cache/_twig_cache'
             ],
-            "strict_variables" => true
+            "twig" => [
+                    "cache" => [
+                    "state" => true,
+                    "dir" => __DIR__ . '/cache/_twig_cache'
+                ],
+                "strict_variables" => true
+            ]
         ]
     ];
     // Адаптер (Вы можете написать свой адаптер)
@@ -103,12 +103,12 @@ $container['view'] = function () {
                     "templates" => 'templates',
                     "dir" => __DIR__ . '/../../../../themes'
                 ]
-            ]
-        ],
-        "blade" => [
-            "cache" => [
-                "state" => true,
-                "dir" => __DIR__ . '/cache/_blade_cache'
+            ],
+            "blade" => [
+                "cache" => [
+                    "state" => true,
+                    "dir" => __DIR__ . '/cache/_blade_cache'
+                ]
             ]
         ]
     ];
