@@ -32,9 +32,9 @@ $container['view'] = function () {
             "front_end" => [
                 "processor" => "blade",
                 "themes" => [
-                    "template" => "template_name",
-                    "templates" => "templates",
-                    "dir" => __DIR__ . '/../../../../themes"
+                    "template" => 'template_name',
+                    "templates" => 'templates',
+                    "dir" => __DIR__ . '/../../../../themes'
                 ]
             ]
         ],
@@ -99,9 +99,9 @@ $container['view'] = function () {
             "front_end" => [
                 "processor" => "blade",
                 "themes" => [
-                    "template" => "template_name",
-                    "templates" => "templates",
-                    "dir" => __DIR__ . '/../../../../themes"
+                    "template" => 'emplate_name',
+                    "templates" => 'templates',
+                    "dir" => __DIR__ . '/../../../../themes'
                 ]
             ]
         ],
