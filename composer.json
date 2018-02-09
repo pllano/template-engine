@@ -1,10 +1,19 @@
 {
-	"name":"pllano/template-processor",
+	"name":"pllano/template-engine",
 	"type": "library",
-	"description": "Caching for API Shop",
-	"keywords": ["caching", "template processor"],
+	"description": "Template Engine for Slim Framework and API Shop",
+	"keywords": [
+		"slim template processor", 
+		"slim template engine", 
+		"slim template", 
+		"slim twig", 
+		"slim smarty", 
+		"slim blade", 
+		"slim mustache", 
+		"slim phprenderer"
+	],
 	"license": "MIT",
-	"homepage": "https://github.com/pllano/template-processor",
+	"homepage": "https://github.com/pllano/template-engine",
 	"authors": [
 		{
 			"name": "pllano",
