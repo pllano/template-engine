@@ -1,4 +1,6 @@
 # \Pllano\Adapter\TemplateEngine
+Support for popular templates engine for the Slim Framework or API Shop
+
 Поддержка популярных шаблонизаторов для Slim Framework или API Shop
 ## Планируется поддержка всех популярных шаблонизаторов: 
 - [`Twig`](https://github.com/twigphp/Twig) - по умолчанию
