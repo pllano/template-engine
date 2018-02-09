@@ -78,23 +78,30 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use Pllano\Adapter\TemplateEngine as Template;
  
-// Конфигурация Slim
+// Конфигурация
 $settings = json_decode(file_get_contents(__DIR__ . '/../../config.json'), true);
+ 
 $app = new \Slim\App($settings);
+ 
 $container = $app->getContainer();
+ 
 $container['view'] = function () {
     $settings = $get->settings();
     return new Template($settings);
 };
+ 
 $app->get('/hello/{name}', function (Request $request, Response $response, array $args) {
+ 
     // Название файла для рендера
     $render = 'file_name.twig';
     // Массив с контентом для шаблонизатора
     $view = [
         'name' => $args['name']
     ];
+ 
     // Рендерим
     return $this->view->render($response, $render, $view);
+ 
 });
 
 $app->run();
