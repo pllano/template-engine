@@ -1,11 +1,11 @@
 <?php
-	/**
- * This file is part of the API SHOP
+/**
+ * This file is part of the Adapter Template Engine
  *
  * @license http://opensource.org/licenses/MIT
  * @link https://github.com/pllano/Adapter
  * @version 1.0.1
- * @package pllano.cache
+ * @package pllano.template-engine
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
