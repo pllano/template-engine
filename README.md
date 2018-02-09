@@ -93,20 +93,21 @@ $container['view'] = function () {
 $app->get('/hello/{name}', function (Request $request, Response $response, array $args) {
  
     // Название файла для рендера
-    $render = 'file_name.twig';
+    $render = 'file_name.html';
+ 
     // Массив с контентом для шаблонизатора
-    $view = [
+    $data = [
         'name' => $args['name']
     ];
  
     // Рендерим
-    return $this->view->render($response, $render, $view);
+    return $this->view->render($response, $render, $data);
  
 });
 
 $app->run();
 ```
-### Twig - Вывод в шаблоне `file_name.twig`
+### Twig - Вывод в шаблоне `file_name.html`
 ``` html
 <!DOCTYPE html>
 <html lang="en">
