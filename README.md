@@ -11,60 +11,6 @@ Support for popular templates engine for the Slim Framework or API Shop
 - `Volt` - в разработке
 - `Dwoo` - в разработке
 ## Использование
-### Конфигурация `config.json`
-```json
-{
-  "settings": {
-    "debug": 0,
-    "displayErrorDetails": 0
-  },
-  "template": {
-    "front_end": {
-      "template_engine": "twig",
-      "themes": {
-        "template": "mini-mo",
-        "templates": "templates",
-        "dir_name": "\/..\/..\/themes"
-      }
-    },
-    "back_end": {
-      "template_engine": "twig",
-      "themes": {
-        "template": "admin",
-        "templates": "templates",
-        "dir_name": "\/..\/..\/themes"
-      }
-    },
-    "twig": {
-      "cache_state": 0,
-      "strict_variables": 0,
-      "cache_dir": "\/..\/..\/cache\/_twig_cache"
-    },
-    "blade": {
-      "cache_state": 0,
-      "cache_dir": "\/..\/..\/cache\/_blade_cache"
-    },
-    "smarty": {
-      "cache_state": 0,
-      "cache_dir": "\/..\/..\/cache\/_smarty_cache",
-      "compile_dir": 0,
-      "plugins_dir": 0
-    },
-    "mustache": {
-      "cache_state": 0,
-      "cache_dir": "\/..\/..\/cache\/_mustache_cache"
-    },
-    "volt": {
-      "cache_state": 0,
-      "cache_dir": "\/..\/..\/cache\/_volt_cache"
-    },
-    "dwoo": {
-      "cache_state": 0,
-      "cache_dir": "\/..\/..\/cache\/_dwoo_cache"
-    }
-  }
-}
-```
 ### Выбор шаблонизатора
 Для переключения шаблонизатора достаточно передать его название конструктору в массиве конфигурации или изменить в файле конфигурации
 ```php
@@ -137,6 +83,60 @@ $app->run();
         {{ $name }}
     </body>
 </html>
+```
+### Конфигурация `config.json`
+```json
+{
+  "settings": {
+    "debug": 0,
+    "displayErrorDetails": 0
+  },
+  "template": {
+    "front_end": {
+      "template_engine": "twig",
+      "themes": {
+        "template": "mini-mo",
+        "templates": "templates",
+        "dir_name": "\/..\/..\/themes"
+      }
+    },
+    "back_end": {
+      "template_engine": "twig",
+      "themes": {
+        "template": "admin",
+        "templates": "templates",
+        "dir_name": "\/..\/..\/themes"
+      }
+    },
+    "twig": {
+      "cache_state": 0,
+      "strict_variables": 0,
+      "cache_dir": "\/..\/..\/cache\/_twig_cache"
+    },
+    "blade": {
+      "cache_state": 0,
+      "cache_dir": "\/..\/..\/cache\/_blade_cache"
+    },
+    "smarty": {
+      "cache_state": 0,
+      "cache_dir": "\/..\/..\/cache\/_smarty_cache",
+      "compile_dir": 0,
+      "plugins_dir": 0
+    },
+    "mustache": {
+      "cache_state": 0,
+      "cache_dir": "\/..\/..\/cache\/_mustache_cache"
+    },
+    "volt": {
+      "cache_state": 0,
+      "cache_dir": "\/..\/..\/cache\/_volt_cache"
+    },
+    "dwoo": {
+      "cache_state": 0,
+      "cache_dir": "\/..\/..\/cache\/_dwoo_cache"
+    }
+  }
+}
 ```
 ## Поддержка, обратная связь, новости
 
