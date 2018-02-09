@@ -13,7 +13,7 @@
  
 namespace Pllano\Adapter;
  
-class TemplateProcessor
+class TemplateEngine
 {
     private $config;
     private $options;
