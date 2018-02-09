@@ -62,7 +62,7 @@ $app->run();
 <!DOCTYPE html>
 <html lang="en">
     <body>
-		{{ name }}
+        {{ name }}
     </body>
 </html>
 ```
@@ -120,7 +120,7 @@ $app->run();
 <!DOCTYPE html>
 <html lang="en">
     <body>
-		{{ $name }}
+        {{ $name }}
     </body>
 </html>
 ```
