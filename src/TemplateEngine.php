@@ -1,11 +1,11 @@
 <?php
 /**
- * This file is part of the API SHOP
+ * This file is part of the Adapter Template Engine
  *
  * @license http://opensource.org/licenses/MIT
- * @link https://github.com/pllano/Adapter
+ * @link https://github.com/pllano/template-engine
  * @version 1.0.1
- * @package pllano.cache
+ * @package pllano.template-engine
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,6 +15,8 @@ namespace Pllano\Adapter;
  
 use Psr\Http\Message\ResponseInterface as Response;
 use Pllano\Adapter\Renderer\PhpRenderer;
+// use Pllano\Adapter\Renderer\Smarty;
+// use Pllano\Adapter\Renderer\Blade;
  
 class TemplateEngine
 {
@@ -23,7 +25,7 @@ class TemplateEngine
     protected $loader;
     protected $response;
     protected $render;
-    protected $view;
+    protected $data;
     protected $template_engine;
     protected $renderer;
     protected $template;
@@ -54,32 +56,41 @@ class TemplateEngine
         $this->renderer();
     }
  
-    public function render(Response $response, $render = null, $view = [])
+    public function render(Response $response, $render = null, $data = [])
     {
         $this->response = $response;
         if(isset($render)) {
             $this->render = $render;
         }
-        if(isset($view)) {
-            $this->view = $view;
+        if(isset($data)) {
+            $this->data = $data;
         }
         $template_engine = strtolower($this->template_engine);
 		if ($this->install != null) {
             if ($template_engine == 'twig') {
-                return $this->renderer->render($this->render, $this->view);
-            } elseif ($template_engine == 'blade') {
-                return null;
+ 
+                return $this->renderer->render($this->render, $this->data);
+ 
+            } elseif ($template_engine == 'blade' || $template_engine == 'phprenderer') {
+ 
+                return $this->renderer->render($this->response, $this->render, $this->data);
+ 
             } elseif ($template_engine == 'smarty') {
-                return null;
+ 
+                $this->renderer->assign($this->data);
+                return $this->renderer->fetch($this->render);
+ 
             } elseif ($template_engine == 'mustache') {
+ 
                 return null;
-            } elseif ($template_engine == 'phprenderer') {
-                return $this->renderer->render($this->response, $this->render, $this->view);
+ 
             } else {
-                return null;
+ 
+                return $this->renderer->render($this->response, $this->render, $this->data);
+ 
             }
 		} else {
-		    return $this->renderer->render($this->render, $this->view);
+		    return $this->renderer->render($this->render, $this->data);
 		}
     }
 
@@ -90,26 +101,50 @@ class TemplateEngine
         $cache = false;
         $strict_variables = false;
 		
-		$layouts = $this->config["settings"]["themes"]["front_end_dir"]."/".$themes['templates']."/".$this->template."/layouts";
+		$paths = $this->config["settings"]["themes"]["front_end_dir"]."/".$themes['templates']."/".$this->template."/layouts";
  
         if ($this->install != null) {
             if ($template_engine == 'twig') {
-                if (isset($this->config['cache']['twig']['state'])) {
-                    if ((int)$this->config['cache']['twig']['state'] == 1) {
-                        $cache = __DIR__ .''.$this->config['cache']['twig']['cache_dir'];
-                        $strict_variables = $this->config['cache']['twig']['strict_variables'];
+ 
+                if (isset($this->config['template']['twig']['cache_state'])) {
+                    if ((int)$this->config['template']['twig']['cache_state'] == 1) {
+                        $cache = __DIR__ .''.$this->config['template']['twig']['cache_dir'];
+                        $strict_variables = $this->config['template']['twig']['strict_variables'];
                     }
                 }
-                $loader = new \Twig_Loader_Filesystem($layouts);
+                $loader = new \Twig_Loader_Filesystem($paths);
                 $this->renderer = new \Twig_Environment($loader, ['cache' => $cache, 'strict_variables' => $strict_variables]);
+ 
             } elseif ($template_engine == 'blade') {
-                $this->renderer = null;
+ 
+				$this->renderer = new Blade($paths, $this->config['template']['blade']['cache_path']);
+ 
             } elseif ($template_engine == 'smarty') {
-                $this->renderer = null;
+ 
+                $this->renderer = new \Smarty();
+ 
+                $this->renderer->setTemplateDir($paths);
+ 
+				if (isset($this->config['template']['smarty']['cache_state'])) {
+                    if ((int)$this->config['template']['smarty']['cache_state'] == 1) {
+                        if (isset($this->config['template']['smarty']['cache_dir'])) {
+                            $this->renderer->setCacheDir($this->config['template']['smarty']['cache_dir']);
+                        }
+                    }
+				}
+ 
+                if (isset($this->config['template']['smarty']['compile_dir'])) {
+                    $this->renderer->setCompileDir($this->config['template']['smarty']['compile_dir']);
+                }
+ 
+                if (isset($this->config['template']['smarty']['plugins_dir'])) {
+                    $this->renderer->addPluginsDir($this->config['template']['smarty']['plugins_dir']);
+                }
+ 
             } elseif ($template_engine == 'mustache') {
                 $this->renderer = null;
             } elseif ($template_engine == 'phprenderer') {
-                $this->renderer = new PhpRenderer($layouts);
+                $this->renderer = new PhpRenderer($paths);
             } else {
                 $this->renderer = null;
             }
