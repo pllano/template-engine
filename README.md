@@ -14,18 +14,7 @@ Support for popular templates engine for the Slim Framework or API Shop
 Для переключения шаблонизатора достаточно передать его название конструктору в массиве конфигурации
 ```php
 $config['template']['front_end']['template_engine'] = 'twig';
-// или
-$config['template']['front_end']['template_engine'] = 'blade';
-// или
-$config['template']['front_end']['template_engine'] = 'smarty';
-// или
-$config['template']['front_end']['template_engine'] = 'mustache';
-// или
-$config['template']['front_end']['template_engine'] = 'phprenderer';
-// или
-$config['template']['front_end']['template_engine'] = 'volt';
-// или
-$config['template']['front_end']['template_engine'] = 'dwoo';
+// или: blade, smarty, mustache, phprenderer, volt, dwoo
 ```
 ### Конфигурация для шаблонизаторов
 ```json
