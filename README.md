@@ -23,6 +23,7 @@ $slim_config['settings'] = [
 $app = new \Slim\App($slim_config);
  
 $container = $app->getContainer();
+ 
 $container['view'] = function () {
     // Конфигурация
     $config = [
@@ -81,6 +82,7 @@ $slim_config['settings'] = [
 $app = new \Slim\App($slim_config);
  
 $container = $app->getContainer();
+ 
 $container['view'] = function () {
     // Конфигурация
     $config = [
