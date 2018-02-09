@@ -10,15 +10,15 @@
 ## Использование
 Для переключения шаблонизатора достаточно передать его название конструктору в массиве конфигурации
 ```php
-$config['template']['front_end']['processor'] = 'twig';
+$config['template']['front_end']['template_engine'] = 'twig';
 // или
-$config['template']['front_end']['processor'] = 'blade';
+$config['template']['front_end']['template_engine'] = 'blade';
 // или
-$config['template']['front_end']['processor'] = 'smarty';
+$config['template']['front_end']['template_engine'] = 'smarty';
 // или
-$config['template']['front_end']['processor'] = 'mustache';
+$config['template']['front_end']['template_engine'] = 'mustache';
 // или
-$config['template']['front_end']['processor'] = 'phprenderer';
+$config['template']['front_end']['template_engine'] = 'phprenderer';
 ```
 ### Twig
 ```php
@@ -43,7 +43,7 @@ $container['view'] = function () {
     $config = [
         "template" => [
             "front_end" => [
-                "processor" => "blade",
+                "template_engine" => "blade",
                 "themes" => [
                     "template" => 'template_name',
                     "templates" => 'templates',
@@ -108,7 +108,7 @@ $container['view'] = function () {
     $config = [
         "template" => [
             "front_end" => [
-                "processor" => "blade",
+                "template_engine" => "blade",
                 "themes" => [
                     "template" => 'template_name',
                     "templates" => 'templates',
