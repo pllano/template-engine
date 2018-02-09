@@ -13,20 +13,21 @@
  
 namespace Pllano\Adapter;
  
-use Slim\Views\PhpRenderer;
+use Psr\Http\Message\ResponseInterface as Response;
+use Pllano\Adapter\PhpRenderer;
  
 class TemplateEngine
 {
     private $config;
-    private $options;
-    private $loader;
-    private $response;
-    private $render;
-    private $view;
-    private $template_engine;
-    private $driver;
-    private $template;
-    private $install = null;
+    protected $options;
+    protected $loader;
+    protected $response;
+    protected $render;
+    protected $view;
+    protected $template_engine;
+    protected $renderer;
+    protected $template;
+    protected $install = null;
  
     public function __construct($config = [], $template = null)
     {
@@ -50,10 +51,10 @@ class TemplateEngine
             $this->template_engine = 'twig';
         }
  
-        $this->driver();
+        $this->renderer();
     }
  
-    public function render($response, $render = null, $view = [])
+    public function render(Response $response, $render = null, $view = [])
     {
         $this->response = $response;
         if(isset($render)) {
@@ -63,22 +64,26 @@ class TemplateEngine
             $this->view = $view;
         }
         $template_engine = strtolower($this->template_engine);
-        if ($template_engine == 'twig') {
-            return $this->driver->render($this->render, $this->view);
-        } elseif ($template_engine == 'blade') {
-            return null;
-        } elseif ($template_engine == 'smarty') {
-            return null;
-        } elseif ($template_engine == 'mustache') {
-            return null;
-        } elseif ($template_engine == 'phprenderer') {
-            return $this->driver->render($this->response, $this->render, $this->view);
-        } else {
-            return null;
-        }
+		if ($this->install != null) {
+            if ($template_engine == 'twig') {
+                return $this->renderer->render($this->render, $this->view);
+            } elseif ($template_engine == 'blade') {
+                return null;
+            } elseif ($template_engine == 'smarty') {
+                return null;
+            } elseif ($template_engine == 'mustache') {
+                return null;
+            } elseif ($template_engine == 'phprenderer') {
+                return $this->renderer->render($this->response, $this->render, $this->view);
+            } else {
+                return null;
+            }
+		} else {
+		    return $this->renderer->render($this->render, $this->view);
+		}
     }
 
-    public function driver()
+    public function renderer()
     {
         $themes = $this->config['template']['front_end']['themes'];
         $template_engine = strtolower($this->template_engine);
@@ -96,24 +101,24 @@ class TemplateEngine
                     }
                 }
                 $loader = new \Twig_Loader_Filesystem($layouts);
-                $this->driver = new \Twig_Environment($loader, ['cache' => $cache, 'strict_variables' => $strict_variables]);
+                $this->renderer = new \Twig_Environment($loader, ['cache' => $cache, 'strict_variables' => $strict_variables]);
             } elseif ($template_engine == 'blade') {
-                $this->driver = null;
+                $this->renderer = null;
             } elseif ($template_engine == 'smarty') {
-                $this->driver = null;
+                $this->renderer = null;
             } elseif ($template_engine == 'mustache') {
-                $this->driver = null;
+                $this->renderer = null;
             } elseif ($template_engine == 'phprenderer') {
-                $this->driver = new PhpRenderer($layouts);
+                $this->renderer = new PhpRenderer($layouts);
             } else {
-                $this->driver = null;
+                $this->renderer = null;
             }
         } else {
             $loader = new \Twig_Loader_Filesystem($this->config["settings"]["themes"]["front_end_dir"]."/".$themes['templates']."/install");
-            $this->driver = new \Twig_Environment($loader, ['cache' => false, 'strict_variables' => false]);
+            $this->renderer = new \Twig_Environment($loader, ['cache' => false, 'strict_variables' => false]);
         }
  
-        return $this->driver;
+        return $this->renderer;
  
     }
  
