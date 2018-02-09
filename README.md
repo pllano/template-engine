@@ -83,7 +83,8 @@ $app->get('/hello/{name}', function (Request $request, Response $response, array
 
 $app->run();
 ```
-В файле шаблона `file_name.twig`
+### Twig - Вывод в шаблоне `file_name.twig`
+В файле шаблона 
 ``` html
 <!DOCTYPE html>
 <html lang="en">
@@ -92,62 +93,16 @@ $app->run();
     </body>
 </html>
 ```
-### Blade
-```php
-require __DIR__ . '/../vendor/autoload.php';
- 
-use Slim\Http\Request;
-use Slim\Http\Response;
-use Pllano\Adapter\TemplateEngine as Template;
- 
-// Конфигурация Slim
-$settings = [
-    "debug" => true,
-    "displayErrorDetails" => true
-];
- 
-$app = new \Slim\App($settings);
- 
-$container = $app->getContainer();
- 
-$container['view'] = function () {
-    // Конфигурация для шаблонизаторов
-    $config = [
-        "template" => [
-            "front_end" => [
-                "template_engine" => "blade",
-                "themes" => [
-                    "template" => 'template_name',
-                    "templates" => 'templates',
-                    "dir" => __DIR__ . '/../../../../themes'
-                ]
-            ],
-            "blade" => [
-                "cache" => [
-                    "state" => true,
-                    "dir" => __DIR__ . '/cache/_blade_cache'
-                ]
-            ]
-        ]
-    ];
- 
-    return new Template($config);
-};
- 
-$app->get('/hello/{name}', function (Request $request, Response $response, array $args) {
-    // Название файла для рендера
-    $render = 'file_name.php';
-    // Массив с контентом для шаблонизатора
-    $view = [
-        'name' => $args['name']
-    ];
-    // Рендерим
-    return $this->view->render($response, $render, $view);
-});
-
-$app->run();
+### Smarty - Вывод в шаблоне `file_name.tpl`
+``` html
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        { $name }
+    </body>
+</html>
 ```
-В файле шаблона `file_name.php`
+### Blade - Вывод в шаблоне `file_name.php`
 ``` html
 <!DOCTYPE html>
 <html lang="en">
