@@ -7,6 +7,50 @@
 - `Mustache`
 - `PhpRenderer`
 
+## Использование
+```php
+require __DIR__ . '/../vendor/autoload.php';
+ 
+$slim_config['settings'] = [
+    "debug" => true,
+    "displayErrorDetails" => true
+];
+ 
+$app = new \Slim\App($slim_config);
+ 
+$container = $app->getContainer();
+$container['view'] = function () {
+    // Конфигурация
+    $config = [
+        "template" => [
+            "front_end" => [
+                "processor" => "twig",
+                "themes" => [
+                    "template" => "template_name",
+                    "templates" => "templates",
+                    "dir" => "/../../themes"
+                ]
+            ]
+        ]
+    ];
+    // Адаптер (Вы можете написать свой адаптер)
+    $vendor = '\Pllano\Adapter\TemplateProcessor';
+    // Название текущего шаблона
+    $template = '';
+    return new $vendor($config, $template);
+};
+ 
+$app->get('/', function (Request $request, Response $response, array $args) {
+    // Название файла для рендера
+    $render = 'index.twig';
+    // Массив с контентом для шаблонизатора
+    $view = [];
+    // Рендерим
+    return $this->view->render($response, $render, $view);
+});
+
+$app->run();
+```
 ## Поддержка, обратная связь, новости
 
 Общайтесь с нами через почту open.source@pllano.com
