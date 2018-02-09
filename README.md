@@ -3,10 +3,10 @@ Support for popular templates engine for the Slim Framework or API Shop
 
 Поддержка популярных шаблонизаторов для Slim Framework или API Shop
 ## Планируется поддержка всех популярных шаблонизаторов: 
-- [`Twig`](https://github.com/twigphp/Twig) - по умолчанию
-- [`PhpRenderer - Slim PHP-View`](https://github.com/slimphp/PHP-View)
-- `Blade` - в разработке
-- `Smarty` - в разработке
+- [`Twig`](https://github.com/twigphp/Twig) - Original - по умолчанию
+- [`PhpRenderer`](https://github.com/slimphp/PHP-View) - Slim PHP-View
+- `Blade` - Original - в разработке
+- `Smarty` - Original - в разработке
 - `Mustache` - в разработке
 - `Volt` - в разработке
 - `Dwoo` - в разработке
