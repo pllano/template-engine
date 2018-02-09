@@ -107,7 +107,6 @@ $app->get('/hello/{name}', function (Request $request, Response $response, array
 $app->run();
 ```
 ### Twig - Вывод в шаблоне `file_name.twig`
-В файле шаблона 
 ``` html
 <!DOCTYPE html>
 <html lang="en">
