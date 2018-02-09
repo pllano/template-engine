@@ -26,6 +26,7 @@ require __DIR__ . '/../vendor/autoload.php';
  
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Pllano\Adapter\TemplateProcessor as Template;
  
 // Конфигурация Slim
 $settings = [
@@ -58,11 +59,10 @@ $container['view'] = function () {
             ]
         ]
     ];
-    // Адаптер (Вы можете написать свой адаптер)
-    $vendor = '\Pllano\Adapter\TemplateProcessor';
+ 
     // Название текущего шаблона
     $template = '';
-    return new $vendor($config, $template);
+    return new Template($config, $template);
 };
  
 $app->get('/hello/{name}', function (Request $request, Response $response, array $args) {
@@ -93,6 +93,7 @@ require __DIR__ . '/../vendor/autoload.php';
  
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Pllano\Adapter\TemplateProcessor as Template;
  
 // Конфигурация Slim
 $settings = [
@@ -128,7 +129,7 @@ $container['view'] = function () {
     $vendor = '\Pllano\Adapter\TemplateProcessor';
     // Название текущего шаблона
     $template = '';
-    return new $vendor($config, $template);
+    return new Template($config, $template);
 };
  
 $app->get('/hello/{name}', function (Request $request, Response $response, array $args) {
