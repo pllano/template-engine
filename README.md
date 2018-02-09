@@ -11,11 +11,6 @@ Support for popular templates engine for the Slim Framework or API Shop
 - `Volt` - в разработке
 - `Dwoo` - в разработке
 ## Использование
-Для переключения шаблонизатора достаточно передать его название конструктору в массиве конфигурации
-```php
-$config['template']['front_end']['template_engine'] = 'twig';
-// или: blade, smarty, mustache, phprenderer, volt, dwoo
-```
 ### Конфигурация `config.json`
 ```json
 {
@@ -70,6 +65,12 @@ $config['template']['front_end']['template_engine'] = 'twig';
   }
 }
 ```
+### Выбор шаблонизатора
+Для переключения шаблонизатора достаточно передать его название конструктору в массиве конфигурации
+```php
+$settings['template']['front_end']['template_engine'] = 'twig';
+// или: blade, smarty, mustache, phprenderer, volt, dwoo
+```
 ### Конфигурация для шаблонизаторов
 ```php
 require __DIR__ . '/../vendor/autoload.php';
@@ -87,6 +88,8 @@ $container = $app->getContainer();
  
 $container['view'] = function () {
     $settings = json_decode(file_get_contents(__DIR__ . '/../../config.json'), true);
+    $settings['template']['front_end']['template_engine'] = 'twig';
+    // или: blade, smarty, mustache, phprenderer, volt, dwoo
     return new Template($settings);
 };
  
