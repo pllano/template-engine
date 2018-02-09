@@ -8,6 +8,18 @@
 - `PhpRenderer`
 
 ## Использование
+Для переключения шаблонизатора достаточно передать его название конструктору в массиве конфигурации
+```php
+$config['template']['front_end']['processor'] = 'twig';
+// или
+$config['template']['front_end']['processor'] = 'blade';
+// или
+$config['template']['front_end']['processor'] = 'smarty';
+// или
+$config['template']['front_end']['processor'] = 'mustache';
+// или
+$config['template']['front_end']['processor'] = 'phprenderer';
+```
 ### Twig
 ```php
 require __DIR__ . '/../vendor/autoload.php';
