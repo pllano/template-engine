@@ -15,12 +15,13 @@ require __DIR__ . '/../vendor/autoload.php';
 use Slim\Http\Request;
 use Slim\Http\Response;
  
-$slim_config['settings'] = [
+// Конфигурация
+$settings = [
     "debug" => true,
     "displayErrorDetails" => true
 ];
  
-$app = new \Slim\App($slim_config);
+$app = new \Slim\App($settings);
  
 $container = $app->getContainer();
  
@@ -29,7 +30,7 @@ $container['view'] = function () {
     $config = [
         "template" => [
             "front_end" => [
-                "processor" => "twig",
+                "processor" => "blade",
                 "themes" => [
                     "template" => "template_name",
                     "templates" => "templates",
@@ -74,12 +75,12 @@ require __DIR__ . '/../vendor/autoload.php';
 use Slim\Http\Request;
 use Slim\Http\Response;
  
-$slim_config['settings'] = [
+$settings = [
     "debug" => true,
     "displayErrorDetails" => true
 ];
  
-$app = new \Slim\App($slim_config);
+$app = new \Slim\App($settings);
  
 $container = $app->getContainer();
  
