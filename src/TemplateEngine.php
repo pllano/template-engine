@@ -82,7 +82,7 @@ class TemplateEngine
  
             } elseif ($template_engine == 'mustache') {
  
-                return null;
+                return $this->renderer->render($this->response, $this->render, $this->data);
  
             } else {
  
@@ -117,12 +117,11 @@ class TemplateEngine
  
             } elseif ($template_engine == 'blade') {
  
-				$this->renderer = new Blade($paths, $this->config['template']['blade']['cache_path']);
+				$this->renderer = new Blade($paths, $this->config['template']['blade']['cache_dir']);
  
             } elseif ($template_engine == 'smarty') {
  
                 $this->renderer = new \Smarty();
- 
                 $this->renderer->setTemplateDir($paths);
  
 				if (isset($this->config['template']['smarty']['cache_state'])) {
@@ -146,7 +145,7 @@ class TemplateEngine
             } elseif ($template_engine == 'phprenderer') {
                 $this->renderer = new PhpRenderer($paths);
             } else {
-                $this->renderer = null;
+                $this->renderer = new $this->template_engine($paths, $this->config);
             }
         } else {
             $loader = new \Twig_Loader_Filesystem($this->config["settings"]["themes"]["front_end_dir"]."/".$themes['templates']."/install");
