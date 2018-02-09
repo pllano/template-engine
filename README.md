@@ -60,9 +60,7 @@ $container['view'] = function () {
         ]
     ];
  
-    // Название текущего шаблона
-    $template = '';
-    return new Template($config, $template);
+    return new Template($config);
 };
  
 $app->get('/hello/{name}', function (Request $request, Response $response, array $args) {
@@ -125,11 +123,8 @@ $container['view'] = function () {
             ]
         ]
     ];
-    // Адаптер (Вы можете написать свой адаптер)
-    $vendor = '\Pllano\Adapter\TemplateProcessor';
-    // Название текущего шаблона
-    $template = '';
-    return new Template($config, $template);
+ 
+    return new Template($config);
 };
  
 $app->get('/hello/{name}', function (Request $request, Response $response, array $args) {
