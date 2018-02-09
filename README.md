@@ -39,7 +39,7 @@ $config['template']['front_end']['template_engine'] = 'twig';
         "templates": "templates",
         "dir_name": "\/..\/..\/themes"
       }
-    }
+    },
     "twig": {
       "cache_state": 0,
       "strict_variables": 0,
