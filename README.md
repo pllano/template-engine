@@ -58,6 +58,7 @@ $app->get('/hello/{name}', function (Request $request, Response $response, array
 $app->run();
 ```
 ## Вывод в шаблоне
+
 ### Twig
 ``` html
 <!DOCTYPE html>
@@ -82,6 +83,15 @@ $app->run();
 <html lang="en">
     <body>
         {{ $name }}
+    </body>
+</html>
+```
+### PhpRenderer
+``` html
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <?php echo $name; ?>
     </body>
 </html>
 ```
