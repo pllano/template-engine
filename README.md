@@ -1,4 +1,4 @@
-# templateProcessor
+# \Pllano\Adapter\TemplateProcessor
 Поддержка популярных шаблонизаторов для Slim Framework или API Shop
 ## Поддерживаемые шаблонизаторы: 
 - `Twig`
