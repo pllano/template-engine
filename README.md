@@ -47,23 +47,25 @@ $config['template']['front_end']['template_engine'] = 'twig';
     },
     "blade": {
       "cache_state": 0,
-      "strict_variables": 0,
-      "cache_dir": "\/..\/..\/cache\/_twig_cache"
+      "cache_dir": "\/..\/..\/cache\/_blade_cache"
     },
     "smarty": {
       "cache_state": 0,
-      "cache_dir": 0,
+      "cache_dir": "\/..\/..\/cache\/_smarty_cache",
       "compile_dir": 0,
       "plugins_dir": 0
     },
     "mustache": {
-      "cache_state": 0
+      "cache_state": 0,
+      "cache_dir": "\/..\/..\/cache\/_mustache_cache"
     },
     "volt": {
-      "cache_state": 0
+      "cache_state": 0,
+      "cache_dir": "\/..\/..\/cache\/_volt_cache"
     },
     "dwoo": {
-      "cache_state": 0
+      "cache_state": 0,
+      "cache_dir": "\/..\/..\/cache\/_dwoo_cache"
     }
   }
 }
