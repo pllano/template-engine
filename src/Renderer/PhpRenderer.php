@@ -17,14 +17,14 @@
  * @copyright Copyright (c) 2011-2015 Josh Lockhart
  * @license   https://github.com/slimphp/PHP-View/blob/master/LICENSE.md (MIT License)
  */
-namespace Pllano\Adapter;
+namespace Pllano\Adapter\Renderer;
 
 use \InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class PhpRenderer
- * @package Slim\Views
+ * @package Pllano\Adapter
  *
  * Render PHP view scripts into a PSR-7 Response object
  */
