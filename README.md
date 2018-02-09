@@ -8,8 +8,12 @@
 - `PhpRenderer`
 
 ## Использование
+### Twig
 ```php
 require __DIR__ . '/../vendor/autoload.php';
+ 
+use Slim\Http\Request;
+use Slim\Http\Response;
  
 $slim_config['settings'] = [
     "debug" => true,
@@ -28,7 +32,7 @@ $container['view'] = function () {
                 "themes" => [
                     "template" => "template_name",
                     "templates" => "templates",
-                    "dir" => "/../../themes"
+                    "dir" => __DIR__ . '/../../../../themes"
                 ]
             ]
         ]
@@ -40,16 +44,85 @@ $container['view'] = function () {
     return new $vendor($config, $template);
 };
  
-$app->get('/', function (Request $request, Response $response, array $args) {
+$app->get('/hello/{name}', function (Request $request, Response $response, array $args) {
     // Название файла для рендера
-    $render = 'index.twig';
+    $render = 'file_name.twig';
     // Массив с контентом для шаблонизатора
-    $view = [];
+    $view = [
+        'name' => $args['name']
+    ];
     // Рендерим
     return $this->view->render($response, $render, $view);
 });
 
 $app->run();
+```
+В файле шаблона `file_name.twig`
+``` html
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+		{{ name }}
+    </body>
+</html>
+```
+### Blade
+```php
+require __DIR__ . '/../vendor/autoload.php';
+ 
+use Slim\Http\Request;
+use Slim\Http\Response;
+ 
+$slim_config['settings'] = [
+    "debug" => true,
+    "displayErrorDetails" => true
+];
+ 
+$app = new \Slim\App($slim_config);
+ 
+$container = $app->getContainer();
+$container['view'] = function () {
+    // Конфигурация
+    $config = [
+        "template" => [
+            "front_end" => [
+                "processor" => "blade",
+                "themes" => [
+                    "template" => "template_name",
+                    "templates" => "templates",
+                    "dir" => __DIR__ . '/../../../../themes"
+                ]
+            ]
+        ]
+    ];
+    // Адаптер (Вы можете написать свой адаптер)
+    $vendor = '\Pllano\Adapter\TemplateProcessor';
+    // Название текущего шаблона
+    $template = '';
+    return new $vendor($config, $template);
+};
+ 
+$app->get('/hello/{name}', function (Request $request, Response $response, array $args) {
+    // Название файла для рендера
+    $render = 'file_name.php';
+    // Массив с контентом для шаблонизатора
+    $view = [
+        'name' => $args['name']
+    ];
+    // Рендерим
+    return $this->view->render($response, $render, $view);
+});
+
+$app->run();
+```
+В файле шаблона `file_name.php`
+``` html
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+		{{ $name }}
+    </body>
+</html>
 ```
 ## Поддержка, обратная связь, новости
 
