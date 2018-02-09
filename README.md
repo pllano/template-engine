@@ -169,7 +169,7 @@ $app->run();
 [коммитам](https://github.com/pllano/template-processor/commits/master) в этом репозитории.
 [RSS](https://github.com/pllano/template-processor/commits/master.atom).
 
-Лицензия API Shop
+Лицензия TemplateEngine
 -------
 
 The MIT License (MIT). Please see [LICENSE](https://github.com/pllano/template-processor/blob/master/LICENSE) for more information.
