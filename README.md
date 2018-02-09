@@ -1,4 +1,4 @@
-# \Pllano\Adapter\TemplateProcessor
+# \Pllano\Adapter\TemplateEngine
 Поддержка популярных шаблонизаторов для Slim Framework или API Shop
 ## Поддерживаемые шаблонизаторы: 
 - `Twig`
@@ -26,7 +26,7 @@ require __DIR__ . '/../vendor/autoload.php';
  
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Pllano\Adapter\TemplateProcessor as Template;
+use Pllano\Adapter\TemplateEngine as Template;
  
 // Конфигурация Slim
 $settings = [
@@ -91,7 +91,7 @@ require __DIR__ . '/../vendor/autoload.php';
  
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Pllano\Adapter\TemplateProcessor as Template;
+use Pllano\Adapter\TemplateEngine as Template;
  
 // Конфигурация Slim
 $settings = [
