@@ -110,7 +110,7 @@ $container['view'] = function () {
             "front_end" => [
                 "processor" => "blade",
                 "themes" => [
-                    "template" => 'emplate_name',
+                    "template" => 'template_name',
                     "templates" => 'templates',
                     "dir" => __DIR__ . '/../../../../themes'
                 ]
