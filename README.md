@@ -86,7 +86,7 @@ $app = new \Slim\App($settings);
 $container = $app->getContainer();
  
 $container['view'] = function () {
-    $settings = $get->settings();
+    $settings = json_decode(file_get_contents(__DIR__ . '/../../config.json'), true);
     return new Template($settings);
 };
  
