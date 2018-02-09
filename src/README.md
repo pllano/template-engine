@@ -1,5 +1,6 @@
 # BasicSyntax
 
+```
 /*
 // Базовый синтаксис Twig
 http://laravel.su/docs/5.2/blade
@@ -223,4 +224,4 @@ https://www.smarty.net/docsv2/ru/language.syntax.variables.tpl
 {* отображает серверную переменную "SERVER_NAME" ($_SERVER['SERVER_NAME'])*}
 {$smarty.server.SERVER_NAME}
 */
- 
+ ```
