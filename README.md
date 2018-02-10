@@ -17,6 +17,17 @@ Support for popular templates engine for the Slim Framework or API Shop
 $settings['template']['front_end']['template_engine'] = 'twig';
 // или: blade, smarty, mustache, phprenderer, volt, dwoo
 ```
+Второй метод автоматический. Если не определен шаблон то TemplateEngine будет определять расширение файла
+```php
+$render = 'file_name.html'; // = twig
+// .html или .twig или .twig.* = twig
+// .blade или .blade.php или .blade.* = blade
+// .php или .phtml = phprenderer
+// .smarty или .smarty.php или .smarty.* = smarty
+// .mustache или .mustache.php или .mustache.* = mustache
+// .volt или .volt.php или .volt.* = volt
+// .dwoo или .dwoo.php или .dwoo.* = dwoo
+```
 ### Конфигурация для шаблонизаторов
 ```php
 require __DIR__ . '/../vendor/autoload.php';
@@ -59,7 +70,7 @@ $app->run();
 ```
 ## Вывод в шаблоне
 
-### Twig
+### Twig и Mustache
 ``` html
 <!DOCTYPE html>
 <html lang="en">
