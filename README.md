@@ -17,7 +17,7 @@ Support for popular templates engine for the Slim Framework or API Shop
 $settings['template']['front_end']['template_engine'] = 'twig';
 // или: blade, smarty, mustache, phprenderer, volt, dwoo
 ```
-Второй метод автоматический. Если не определен шаблонизатор в `template_engine` то `TemplateEngine` будет определять шаблонизатор по расширению файла
+Второй метод автоматический. Если не определен шаблонизатор в `$settings['template']['front_end']['template_engine']` то `TemplateEngine` будет определять шаблонизатор по расширению файла
 ```php
 $render = 'file_name.html'; // = twig
 // .html или .twig или .twig.* = twig
