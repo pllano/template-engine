@@ -33,8 +33,8 @@ $render = 'file_name.html'; // = twig
 ```php
 require __DIR__ . '/../vendor/autoload.php';
  
-use Slim\Http\Request;
-use Slim\Http\Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 use Pllano\Adapter\TemplateEngine as Template;
  
 // Конфигурация
