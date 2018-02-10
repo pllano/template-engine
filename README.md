@@ -10,7 +10,6 @@ Support for popular templates engine for the Slim Framework or API Shop
 - [`Fenom`](https://github.com/fenom-template/fenom) - Original
 - [`Mustache`](https://github.com/bobthecow/mustache.php) - Original
 - `Blade` через [PhiloNL/Laravel-Blade](https://github.com/PhiloNL/Laravel-Blade) + [illuminate/view](https://github.com/illuminate/view) - в разработке
-
 - `Volt` через Phalcon\Mvc\View\Engine\Volt\Compiler - в разработке
 ## Использование
 ### Выбор шаблонизатора
