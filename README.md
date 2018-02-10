@@ -5,12 +5,12 @@ Support for popular templates engine for the Slim Framework or API Shop
 ## Планируется поддержка всех популярных шаблонизаторов: 
 - [`Twig`](https://github.com/twigphp/Twig) - Original - по умолчанию
 - [`PhpRenderer`](https://github.com/slimphp/PHP-View) - Slim PHP-View
-- `Blade` - Original - в разработке
-- `Smarty` - Original - в разработке
-- `Mustache` - в разработке
-- `Volt` - в разработке
-- `Dwoo` - в разработке
-- `Fenom` - в разработке
+- [`Smarty`](https://github.com/smarty-php/smarty) - Original - в разработке
+- [`Mustache`](https://github.com/bobthecow/mustache.php) - Original
+- `Blade` через [PhiloNL/Laravel-Blade](https://github.com/PhiloNL/Laravel-Blade) + [illuminate/view](https://github.com/illuminate/view) - в разработке
+- [`Dwoo`](https://github.com/dwoo-project/dwoo) - в разработке
+- [`Fenom`](https://github.com/fenom-template/fenom) - в разработке
+- `Volt` через Phalcon\Mvc\View\Engine\Volt\Compiler - в разработке
 ## Использование
 ### Выбор шаблонизатора
 Для переключения шаблонизатора достаточно передать его название конструктору в массиве конфигурации или изменить в файле конфигурации
@@ -71,7 +71,7 @@ $app->run();
 ```
 ## Вывод в шаблоне
 
-### Twig и Mustache
+### Twig, Mustache, Volt
 ``` html
 <!DOCTYPE html>
 <html lang="en">
