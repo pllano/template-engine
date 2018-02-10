@@ -21,13 +21,13 @@ $settings['template']['front_end']['template_engine'] = 'twig';
 Второй метод автоматический. Если не определен шаблонизатор в `$settings['template']['front_end']['template_engine']` то `TemplateEngine` будет определять шаблонизатор по расширению файла
 ```php
 $render = 'file_name.html'; // = twig
-// .html или .twig или .twig.* = twig
+// .html или .twig или .twig.tpl или .twig.* = twig
 // .blade или .blade.php или .blade.* = blade
+// .smarty или .smarty.php или .smarty.tpl или .smarty.* = smarty
+// .mustache или .mustache.php или .mustache.tpl или .mustache.* = mustache
+// .volt или .volt.php или .volt.tpl или .volt.* = volt
+// .dwoo или .dwoo.php или .dwoo.tpl или .dwoo.* = dwoo
 // .php или .phtml = phprenderer
-// .smarty или .smarty.php или .smarty.* = smarty
-// .mustache или .mustache.php или .mustache.* = mustache
-// .volt или .volt.php или .volt.* = volt
-// .dwoo или .dwoo.php или .dwoo.* = dwoo
 ```
 ### Конфигурация для шаблонизаторов
 ```php
