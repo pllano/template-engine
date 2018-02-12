@@ -22,7 +22,8 @@ namespace Pllano\Adapter\Renderer\Arhone;
  * @author Алексей Арх <info@arh.one>
  */
  
-class Template implements TemplateInterface {
+class Template implements TemplateInterface 
+{
 
     /**
      * Настройки класса
@@ -57,7 +58,8 @@ class Template implements TemplateInterface {
      * Template constructor.
      * @param array $config
      */
-    function __construct (array $config = []) {
+    public function __construct (array $config = [])
+	{
 
         $this->config($config);
 
@@ -71,7 +73,8 @@ class Template implements TemplateInterface {
      * @return string
      * @throws \Exception
      */
-    public function render ($path, array $data = []) : string {
+    public function render ($path, array $data = []) : string
+	{
 
         ob_start();
             extract($data);
@@ -87,7 +90,8 @@ class Template implements TemplateInterface {
      * @return string
      * @throws \Exception
      */
-    protected function getPath ($path) : string {
+    protected function getPath ($path) : string
+	{
 
         $pathList = [];
         if (is_string($path)) {
@@ -118,7 +122,8 @@ class Template implements TemplateInterface {
      * @param mixed|null $value
      * @return mixed|void
      */
-    public function set (string $name, $value = null) {
+    public function set (string $name, $value = null)
+	{
 
         if ($value) {
 
@@ -141,7 +146,8 @@ class Template implements TemplateInterface {
      * @param mixed|null $value
      * @return mixed|void
      */
-    public function default (string $name, $value = null) {
+    public function default (string $name, $value = null)
+	{
 
         if ($value) {
 
@@ -164,7 +170,8 @@ class Template implements TemplateInterface {
      * @param mixed|null $value
      * @return mixed
      */
-    public function add (string $name, $value = null) {
+    public function add (string $name, $value = null)
+	{
 
         if ($value) {
 
@@ -185,7 +192,8 @@ class Template implements TemplateInterface {
      * @param string $name
      * @return mixed
      */
-    public function end (string $name) {
+    public function end (string $name)
+	{
 
         $value = ob_get_clean();
 
@@ -216,7 +224,8 @@ class Template implements TemplateInterface {
      * @param string $name
      * @return mixed
      */
-    public function get (string $name) {
+    public function get (string $name)
+	{
 
         return self::$storage[$name] ?? self::$default[$name] ?? null;
 
@@ -228,7 +237,8 @@ class Template implements TemplateInterface {
      * @param string $name
      * @return mixed
      */
-    public function has (string $name) {
+    public function has (string $name)
+	{
         
         return isset(self::$storage[$name]);
         
@@ -240,7 +250,8 @@ class Template implements TemplateInterface {
      * @param string $name
      * @return mixed
      */
-    public function delete (string $name) {
+    public function delete (string $name)
+	{
 
         unset(self::$storage[$name]);
 
@@ -252,7 +263,8 @@ class Template implements TemplateInterface {
      * @param string $name
      * @return mixed|null
      */
-    public function __get (string $name) {
+    public function __get (string $name)
+	{
 
         return $this->get($name);
         
@@ -264,7 +276,8 @@ class Template implements TemplateInterface {
      * @param string $name
      * @param $value
      */
-    public function __set (string $name, $value) {
+    public function __set (string $name, $value)
+	{
 
         $this->set($name, $value);
         
@@ -276,7 +289,8 @@ class Template implements TemplateInterface {
      * @param string $name
      * @return mixed
      */
-    public function __isset (string $name) {
+    public function __isset (string $name)
+	{
         
         return $this->has($name);
         
@@ -288,7 +302,8 @@ class Template implements TemplateInterface {
      * @param string $name
      * @return mixed
      */
-    public function __unset (string $name) {
+    public function __unset (string $name)
+	{
 
         unset(self::$storage[$name]);
 
@@ -301,7 +316,8 @@ class Template implements TemplateInterface {
      * @param array $tagList
      * @return string
      */
-    public function specialChars (string $text, array $tagList = []) : string {
+    public function specialChars (string $text, array $tagList = []) : string
+	{
         
         if (isset($tagList['code']) || array_search('code', $tagList) !== false) {
             
@@ -356,7 +372,8 @@ class Template implements TemplateInterface {
      * @param string $text
      * @return string
      */
-    public function clearComment (string $text) : string {
+    public function clearComment (string $text) : string
+	{
         
         return preg_replace('/<!--[^\[].*-->/Uis', '', $text);
         
@@ -368,7 +385,8 @@ class Template implements TemplateInterface {
      * @param string $text
      * @return string
      */
-    public function clearRN (string $text) : string {
+    public function clearRN (string $text) : string
+	{
         
         return preg_replace('/\s+/', ' ', $text);
         
@@ -380,7 +398,8 @@ class Template implements TemplateInterface {
      * @param array $config
      * @return array
      */
-    public function config (array $config) : array {
+    public function config (array $config) : array
+	{
 
         return $this->config = array_merge($this->config, $config);
 

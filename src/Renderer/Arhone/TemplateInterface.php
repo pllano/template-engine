@@ -13,7 +13,7 @@
 declare(strict_types = 1);
  
 namespace Pllano\Adapter\Renderer\Arhone;
-
+ 
 /**
  * Шаблонизатор
  *
@@ -21,15 +21,17 @@ namespace Pllano\Adapter\Renderer\Arhone;
  * @package arhone\template
  * @author Алексей Арх <info@arh.one>
  */
-interface TemplateInterface {
-
+ 
+interface TemplateInterface
+{
+ 
     /**
      * Template constructor.
      *
      * @param array $config
      */
-    function __construct (array $config = []);
-
+    public function __construct (array $config = []);
+ 
     /**
      * Возвращает загруженный шаблон
      *
@@ -38,7 +40,7 @@ interface TemplateInterface {
      * @return string
      */
     public function render ($path, array $data = []) : string;
-
+ 
     /**
      * Устанавливает значение для переменной
      * Включение буферизации вывода
@@ -48,7 +50,7 @@ interface TemplateInterface {
      * @return mixed|void
      */
     public function set (string $name, $value = null);
-
+ 
     /**
      * Устанавливает значение для переменной по умолчанию
      * Включение буферизации вывода
@@ -58,7 +60,7 @@ interface TemplateInterface {
      * @return mixed|void
      */
     public function default (string $name, $value = null);
-
+ 
     /**
      * Дописывает значение в переменную
      * Включение буферизации вывода
@@ -68,7 +70,7 @@ interface TemplateInterface {
      * @return mixed
      */
     public function add (string $name, $value = null);
-
+ 
     /**
      * Получить содержимое текущего буфера и удалить его
      *
@@ -76,7 +78,7 @@ interface TemplateInterface {
      * @return mixed
      */
     public function end (string $name);
-
+ 
     /**
      * Возвращает значение переменной
      * 
@@ -84,7 +86,7 @@ interface TemplateInterface {
      * @return mixed
      */
     public function get (string $name);
-
+ 
     /**
      * Проверяет существование переменной
      * 
@@ -92,7 +94,7 @@ interface TemplateInterface {
      * @return mixed
      */
     public function has (string $name);
-
+ 
     /**
      * Удаляет переменную
      *
@@ -100,7 +102,7 @@ interface TemplateInterface {
      * @return mixed
      */
     public function delete (string $name);
-
+ 
     /**
      * htmlspecialchars() с исключениями
      *
@@ -109,7 +111,7 @@ interface TemplateInterface {
      * @return string
      */
     public function specialChars (string $text, array $tagList = []) : string;
-
+ 
     /**
      * Очистить от комментарий
      *
@@ -117,7 +119,7 @@ interface TemplateInterface {
      * @return string
      */
     public function clearComment (string $text) : string;
-
+ 
     /**
      * Очистить от переноса строк
      *
@@ -125,7 +127,7 @@ interface TemplateInterface {
      * @return string
      */
     public function clearRN (string $text) : string;
-
+ 
     /**
      * Задаёт конфигурацию
      *
@@ -133,6 +135,6 @@ interface TemplateInterface {
      * @return array
      */
     public function config (array $config) : array;
-
+ 
 }
  
