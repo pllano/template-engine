@@ -83,7 +83,7 @@ $app->run();
     </body>
 </html>
 ```
-### Smarty
+### Smarty, Dwoo
 ``` html
 <!DOCTYPE html>
 <html lang="en">
