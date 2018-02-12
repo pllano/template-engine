@@ -11,7 +11,7 @@ Support for popular templates engine for the Slim Framework or API Shop
 - [`Dwoo`](https://github.com/dwoo-project/dwoo) - Original
 - [`Mustache`](https://github.com/bobthecow/mustache.php) - Original
 ### Альтернативные
-- [`WebSun`](https://github.com/1234ru/websun) - идет в комплекте с TemplateEngine как класс \Pllano\Adapter\TemplateEngine\Websun
+- [`WebSun`](https://github.com/1234ru/websun) - идет в комплекте с TemplateEngine как класс \Pllano\Adapter\TemplateEngine\WebSun
 - [`Arhone`](https://github.com/arhone/template) - идет в комплекте с TemplateEngine как класс \Pllano\Adapter\TemplateEngine\Arhone
 - Вы можете подключить свой шаблонизатор
 ## Использование
