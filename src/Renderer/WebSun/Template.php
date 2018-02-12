@@ -15,7 +15,7 @@ namespace Pllano\Adapter\Renderer\WebSun;
 # Websun template parser by Mikhail Serov (1234ru at gmail.com)
 # http://webew.ru/articles/3609.webew
 # 2010-2017 (c)
- 
+
 /*
     
     0.1.99 - some codestyle fixes by @KarelWintersky
@@ -275,7 +275,8 @@ namespace Pllano\Adapter\Renderer\WebSun;
     *
     * Class Template
 */
-class Template {
+class Template
+{
  
     const VERSION = '0.1.99';
  
@@ -300,7 +301,8 @@ class Template {
         *
         * @param array $options[]
     */
-    function __construct($options) {
+    public function __construct($options)
+	{
         $this->vars = $options['data'];
         
         if (isset($options['templates_root']) AND $options['templates_root']) // корневой каталог шаблонов
@@ -330,7 +332,7 @@ class Template {
         
         $this->allowed_extensions = (isset($options['allowed_extensions'])) 
         ? $options['allowed_extensions'] 
-        : array( 'tpl', 'html', 'css', 'js', 'xml' );
+        : [ 'tpl', 'html', 'css', 'js', 'xml' ];
         
         $this->no_global_vars = (isset($options['no_global_vars']) ? $options['no_global_vars'] : FALSE);
         
@@ -343,7 +345,8 @@ class Template {
         * @param $template
         * @return mixed
     */
-    function parse_template($template) {
+    public function parse_template($template)
+	{
         if ($this->profiling)
         $start = microtime(1);
         
@@ -384,7 +387,7 @@ class Template {
             )+
             )
         */
-        array($this, 'parse_vars_templates_functions'), 
+        [$this, 'parse_vars_templates_functions'], 
         $template
         );
         
@@ -428,41 +431,41 @@ class Template {
         * @param $string
         * @return array|bool|int|mixed|null|string
     */
-    function var_value($string) {
-        
+    public function var_value($string)
+	{
         if ($this->profiling)
         $start = microtime(1);
-        
+ 
         if (mb_substr($string, 0, 1) == '=') { # константа
             $C = mb_substr($string, 1);
             $out = (defined($C)) ? constant($C) : '';
         }
-        
+ 
         // можно делать if'ы:
         // {*var_1|var_2|"строка"|134*}
         // сработает первая часть, которая TRUE
         elseif (mb_strpos($string, '|') !== FALSE) {
             $f = __FUNCTION__;
-            
+ 
             foreach (explode('|', $string) as $str) {
                 // останавливаемся при первом же TRUE
                 if ($val = $this->$f($str)) 
                 break; 
             }
-            
+ 
             $out = $val;
         }
-        
+ 
         elseif ( # скалярная величина
-        mb_substr($string, 0, 1) == '"'
-        AND 
-        mb_substr($string, -1) == '"'
+            mb_substr($string, 0, 1) == '"'
+            AND 
+            mb_substr($string, -1) == '"'
         )
         $out = mb_substr($string, 1, -1);
-        
+ 
         elseif (is_numeric($string)) 
         $out = $string;
-        
+ 
         else {
             
             if (mb_substr($string, 0, 1) == '$') { 
@@ -476,7 +479,7 @@ class Template {
             }
             else 
             $value = $this->vars;
-            
+ 
             // допустимы выражения типа {*var^COUNT*}
             // (вернет count($var)) )
             if (mb_substr($string, -6) == '^COUNT') {
@@ -485,9 +488,9 @@ class Template {
             }
             else
             $return_mode = FALSE; // default
-            
+ 
             $rawkeys = explode('.', $string);
-            $keys = array();
+            $keys = [];
             foreach ($rawkeys as $v) { 
                 if ($v !== '') 
                 $keys[] = $v; 
@@ -495,200 +498,197 @@ class Template {
             // array_filter() использовать не получается, 
             // т.к. числовой индекс 0 она тоже считает за FALSE и убирает
             // поэтому нужно сравнение с учетом типа
-            
+ 
             // пустая строка указывает на корневой массив
             foreach($keys as $k) { 
                 if (is_array($value) AND isset($value[$k])) 
                 $value = $value[$k];
-                
+ 
                 elseif (is_object($value) AND property_exists($value, $k)) 
                 $value = $value->$k;
-                
+ 
                 else {
                     $value = NULL;
                     break;
                 }
             }
-            
+ 
             // в зависимости от $return_mode действуем по-разному:
             $out = (!$return_mode)
             // возвращаем значение переменной (обычный случай)
             ? $value
-            
+ 
             // возвращаем число элементов в массиве
-            : ( is_array($value) ? count($value) : FALSE )
-            
-            ;
+            : ( is_array($value) ? count($value) : FALSE );
         }
-        
+ 
         if ($this->profiling) 
         $this->write_time(__FUNCTION__, $start, microtime(1));
-        
+ 
         return $out;
     }
-    
+ 
     /**
         * @param $template
         * @return mixed
     */
-    function find_and_parse_cycle($template) {
+    public function find_and_parse_cycle($template)
+	{
         if ($this->profiling) 
         $start = microtime(1);
         // пришлось делать специальную функцию, чтобы реализовать рекурсию
         $out = preg_replace_callback(
-        '/
-        { %\* ([^*]*) \* }
-        ( (?: [^{]* | (?R) | . )*? )
-        { (?: % | \*\1\*% ) }
-        /sx',
-        array($this, 'parse_cycle'), 
-        $template 
+            '/
+            { %\* ([^*]*) \* }
+            ( (?: [^{]* | (?R) | . )*? )
+            { (?: % | \*\1\*% ) }
+            /sx',
+            [$this, 'parse_cycle'], 
+            $template 
         );
         // инвертный класс - [^{]* - для быстрого совпадения
         // непрерывных цепочек статистически наиболее часто встречающихся символов 
-        
+ 
         if ($this->profiling) 
         $this->write_time(__FUNCTION__, $start, microtime(1));
-        
+ 
         return $out;
     }
-    
+ 
     /**
         * @param $matches
         * @return bool|mixed|string
     */
-    function parse_cycle($matches) {
-        
+    public function parse_cycle($matches)
+	{
         if ($this->profiling) 
         $start = microtime(1);
-        
+ 
         $array_name = $matches[1];
         $array = $this->var_value($array_name);
-        
+ 
         if ( ! is_array($array) ) 
         return FALSE;
-        
+ 
         $parsed = '';
-        
+ 
         $dot = ( $array_name != '' AND $array_name != '$' ) 
         ? '.' 
         : '';
-        
+ 
         $array_name_quoted = preg_quote($array_name);
-        
+ 
         # Слэш - / - функция preg_quote не экранирует; т.к. мы используем его в качестве ограничителя для регулярных выражений, экранируем его самостоятельно
         $array_name_quoted = str_replace('/', '\/', $array_name_quoted); // 
-        
+ 
         $i = 0; $n = 1;
         foreach ($array as $key => $value) {
             $parsed .= preg_replace(
-            array(// массив поиска
-            "/(?<=[*=<>|&%])\s*$array_name_quoted\:\^KEY\b/",
-            "/(?<=[*=<>|&%])\s*$array_name_quoted\:\^i\b/",
-            "/(?<=[*=<>|&%])\s*$array_name_quoted\:\^N\b/",
-            "/(?<=[*=<>|&%])\s*$array_name_quoted\:/"
-            ), 
-            array(// массив замены
-            '"' . $key . '"',               // preg_quote для ключей нельзя, 
-            '"' . $i . '"',
-            '"' . $n . '"',
-            $array_name . $dot . $key . '.' // т.к. в них бывает удобно
-            ),                                 // хранить некоторые данные,
-            $matches[2]                           // а preg_quote слишком многое экранирует
+                [// массив поиска
+                    "/(?<=[*=<>|&%])\s*$array_name_quoted\:\^KEY\b/",
+                    "/(?<=[*=<>|&%])\s*$array_name_quoted\:\^i\b/",
+                    "/(?<=[*=<>|&%])\s*$array_name_quoted\:\^N\b/",
+                    "/(?<=[*=<>|&%])\s*$array_name_quoted\:/"
+                ], [// массив замены
+                    '"' . $key . '"', // preg_quote для ключей нельзя, 
+                    '"' . $i . '"',
+                    '"' . $n . '"',
+                    $array_name . $dot . $key . '.' // т.к. в них бывает удобно
+                ], // хранить некоторые данные,
+                $matches[2] // а preg_quote слишком многое экранирует
             );
             $i++; $n++;
         }
         $parsed = $this->find_and_parse_cycle($parsed);
-        
+ 
         if ($this->profiling) 
         $this->write_time(__FUNCTION__, $start, microtime(1));
-        
+ 
         return $parsed;
     }
-    
+ 
     /**
         * @param $template
         * @return mixed
     */
-    function find_and_parse_if($template) {
-        
+    public function find_and_parse_if($template)
+	{ 
         if ($this->profiling)
         $start = microtime(1);
-        
+ 
         $out = preg_replace_callback( 
-        '/
-        { (\?\!?) \*  # открывающая "скобка"
-        
-        (           # условие для проверки 
-        (?:
-        [^*]*+       # строгое выражение, никогда не возвращающееся назад;
-        |            # буквально означает "любые символы, кроме звёздочки,
-        \* (?! } )   # либо звёздочка, если только за ней сразу не следует
-        )+               # закрывающая фигурная скобка
-        )     
-        \*}      
-        
-        ( (?: [^{]* | (?R) | . )*? ) # при положительном проверки результате (+ рекурсия)
-        (?:
-        { \?\! } 
-        ( (?: [^{]* | (?R) | . )*? ) # при отрицательном результате проверки
-        )? #  
-        { (?: \?  | \*\2\*\1 ) }     # закрывающая скобка
-        /sx', 
-        array($this, 'parse_if'), 
-        $template
+            '/
+            { (\?\!?) \*  # открывающая "скобка"
+            (           # условие для проверки 
+            (?:
+            [^*]*+       # строгое выражение, никогда не возвращающееся назад;
+            |            # буквально означает "любые символы, кроме звёздочки,
+            \* (?! } )   # либо звёздочка, если только за ней сразу не следует
+            )+               # закрывающая фигурная скобка
+            )     
+            \*}      
+            ( (?: [^{]* | (?R) | . )*? ) # при положительном проверки результате (+ рекурсия)
+            (?:
+            { \?\! } 
+            ( (?: [^{]* | (?R) | . )*? ) # при отрицательном результате проверки
+            )? #  
+            { (?: \?  | \*\2\*\1 ) }     # закрывающая скобка
+            /sx', 
+            [$this, 'parse_if'], 
+            $template
         ); 
         // пояснения к рег. выражению см. в find_and_parse_cycle
-        
+ 
         if ($this->profiling) 
         $this->write_time(__FUNCTION__, $start, microtime(1));
-        
+ 
         return $out;
     }
-    
+ 
     /**
         * @param $matches
         * @return mixed|string
     */
-    function parse_if($matches) {
+    public function parse_if($matches)
+	{
         # 1 - ? или ?!
         # 2 - условие
         # 3 - при положительном результате 
         # 4 - при отрицательном результате (если указано)
-        
+ 
         if ($this->profiling) 
         $start = microtime(1);
-        
+ 
         $final_check = FALSE;
-        
+ 
         $separator = (strpos($matches[2], '&'))
         ? '&'  // "AND"
         : '|'; // "OR"
         $parts = explode($separator, $matches[2]);
         $parts = array_map('trim', $parts); // убираем пробелы по краям
-        
-        $checks = array();
-        
+ 
+        $checks = [];
+ 
         foreach ($parts as $p) 
         $checks[] = $this->check_if_condition_part($p);
-        
+ 
         if ($separator == '|') // режим "OR" 
         $final_check = in_array(TRUE, $checks);
-        
+ 
         else // режим "AND"
         $final_check = !in_array(FALSE, $checks);
-        
+ 
         $result = ($matches[1] == '?') 
         ? $final_check 
         : !$final_check ; 
-        
+ 
         $parsed_if = ($result) 
         ? $this->find_and_parse_if($matches[3]) 
         : ( (isset($matches[4])) ? $this->find_and_parse_if($matches[4]) : '' ) ;
-        
+ 
         if ($this->profiling) 
         $this->write_time(__FUNCTION__, $start, microtime(1));
-        
+ 
         return $parsed_if;
     }
     
@@ -697,50 +697,44 @@ class Template {
         * @param $str
         * @return bool
     */
-    function check_if_condition_part($str) {
-        
+    public function check_if_condition_part($str)
+	{
         if ($this->profiling)
         $start = microtime(1);
-        
+ 
         preg_match(
-        '/^
-        (  
-        "[^"*]*"     # строковый литерал
-        
-        |            # или
-        
-        =?[^<>=]*+   # имя константы или переменной или вызов функции
-        )  
-        
-        (?: # если есть сравнение с чем-то:
-        
-        ([=<>])  # знак сравнения 
-        
-        (.*)     # то, с чем сравнивают
-        )?
-        
-        $
-        /x',
-        $str,
-        $matches
+            '/^
+            (  
+            "[^"*]*"     # строковый литерал
+            |            # или
+            =?[^<>=]*+   # имя константы или переменной или вызов функции
+            )  
+            (?: # если есть сравнение с чем-то:
+            ([=<>])  # знак сравнения 
+            (.*)     # то, с чем сравнивают
+            )?
+            $
+            /x',
+            $str,
+            $matches
         );
-        
+ 
         $left = ( strpos(trim($matches[1]), '@') === 0 ) 
         ? $this->parse_vars_templates_functions( [ 1 => $matches[1] ]) # вызов функции
         : $this->var_value(trim($matches[1])) ;
-        
+ 
         if (!isset($matches[2]))
         $check = ($left == TRUE);
-        
+ 
         else {
-            
+ 
             if (isset($matches[3]))
             $right = ( strpos(trim($matches[3]), '@') === 0 ) 
             ? $this->parse_vars_templates_functions( [ 1 => $matches[3] ]) # вызов функции
             : $this->var_value(trim($matches[3]));
             else
             $right = FALSE ;
-            
+ 
             switch($matches[2]) {
                 case '=': $check = ($left == $right); break;
                 case '>': $check = ($left > $right); break;
@@ -748,154 +742,154 @@ class Template {
                 default: $check = ($left == TRUE);
             }
         }
-        
+ 
         if ($this->profiling) 
         $this->write_time(__FUNCTION__, $start, microtime(1));
-        
+ 
         return $check;
     }
-    
+ 
     /**
         *
         * @param $matches
         * @return mixed|string
     */
-    function parse_vars_templates_functions($matches) {
+    public function parse_vars_templates_functions($matches)
+	{
         if ($this->profiling) 
         $start = microtime(1);
-        
+ 
         // тут обрабатываем сразу всё - и переменные, и шаблоны, и функции
         $work = $matches[1]; // ВНИМАНИЕ! При смене номера подмаски исправить также случаи в check_if_condition_part, где обрабатывается вызов функции (в двух местах)
-        
+ 
         $work = trim($work); // убираем пробелы по краям
-        
+ 
         if (mb_substr($work, 0, 1) == '@') { // функции {* @name(arg1,arg2) | template *}
-            
+ 
             $p = '/
-            ^
-            ( [^(]++ ) # 1 - имя функции
-            (?: \( ( (?: [^)"]++ | "[^"]++" )* ) \) \s* ) # 2 - аргументы
-            (?: \| \s* (.++) )? # 3 - это уже до конца
-            $
+                ^
+                ( [^(]++ ) # 1 - имя функции
+                (?: \( ( (?: [^)"]++ | "[^"]++" )* ) \) \s* ) # 2 - аргументы
+                (?: \| \s* (.++) )? # 3 - это уже до конца
+                $
             /x';
             // выражение неплохо оптимизировано: захватывающие квантификаторы 
             // ("+" - не возвращаться назад) - и пр.,
             // однако сам по себе вызов функций является довольно короткой строкой,
             // так что хорошо работать будет любое выражение
-            
+ 
             if (preg_match( $p, mb_substr($work, 1), $m) ) {
-                
+ 
                 $function_string = $m[1];
-                
+ 
                 // Возможны три варианта вызова функции:
                 // самый простой: rand
                 // переменная: *var*
                 // статический метод: Class::function
                 // свойство объекта: *var*->fn
-                
+ 
                 preg_match('/^\*([^*]++)\*(?:->(\w+))?$/', $function_string, $w); // просто $w
-                
+ 
                 $call; // Сюда запишем некоторые параметры того, что будем вызывать
                 // Вообще не круто использовать наряду с $callback (см. ниже),
                 // но лучше ничего не придумалось.
-                
+ 
                 if (!$w) { // "звёздочек" нет - простая функция или статический метод
-                    
+ 
                     $tmp = explode('::', $function_string);
-                    
+ 
                     if (count($tmp) == 1)
-                    $call = array(
-                    'function' => $function_string, 
-                    'for_check' => $function_string 
-                    );
-                    
+                    $call = [
+                        'function' => $function_string, 
+                        'for_check' => $function_string 
+                    ];
+ 
                     else
-                    $call = array( 
-                    'class' => $tmp[0],
-                    'method' => $tmp[1], 
-                    'for_check' => "$tmp[0]::$tmp[1]" 
-                    );
+                    $call = [
+                        'class' => $tmp[0],
+                        'method' => $tmp[1], 
+                        'for_check' => "$tmp[0]::$tmp[1]" 
+                    ];
                 }
                 else { // "звёздочки" есть - нужно получить из переменной
                     // т.к. точно знаем, что переменная, а не литерал,
                     // вызываем сразу var_value, минуя get_var_or_string
                     $var = $this->var_value($w[1]);
-                    
+ 
                     if (!isset($w[2])) // простая функция
-                    $call = array( 'function' => $var, 'for_check' => $var );
-                    
+                    $call = [ 'function' => $var, 'for_check' => $var ];
+ 
                     else    // метод объекта
-                    $call = array( 
-                    'object' => $var,
-                    'method' => $w[2], 
-                    'for_check' => get_class($var) . "::$w[2]"
-                    );
-                    
+                    $call = [
+                        'object' => $var,
+                        'method' => $w[2], 
+                        'for_check' => get_class($var) . "::$w[2]"
+                    ];
+ 
                     unset($var);
-                    
+ 
                 }
                 unset($w);
-                
+ 
                 // if (PHP_VERSION_ID / 100 > 506) { // это включим позже, получим PHP 5.6
                 // $list = - тут ссылка на константу из namespace
                 // else
                 global $WEBSUN_ALLOWED_CALLBACKS;
                 $list = $WEBSUN_ALLOWED_CALLBACKS;
                 // }
-                
+ 
                 if ($list and in_array($call['for_check'], $list) )
                 $allowed = TRUE;
                 else {
                     $allowed = FALSE;
                     trigger_error("'$call[for_check]()' is not in the list of allowed callbacks.", E_USER_WARNING);
                 }
-                
+ 
                 if ($allowed) {
-                    
-                    $args = array();
-                    
+ 
+                    $args = [];
+ 
                     if (isset($m[2])) {
                         preg_match_all('
-                        / 
-                        # выражение составлено так, что в каждой подмаске
-                        # должен совпасть хотя бы один символ 
-                        
-                        [^\s,"{\[]++ # переменные, константы или числа (ведущий пробел тоже исключаем) 
-                        |
-                        "[^"]*+" # строки
-                        |
-                        ( \[ (?: [^\[\]]*+ | (?1) )* \] ) # JSON: обычные массивы (с числовыми ключами)
-                        |
-                        ( { (?: [^{}]*+ | (?2) )* } ) # JSON: ассоциативные массивы
-                        /x', 
-                        $m[2], 
-                        $tmp
+                            / 
+                            # выражение составлено так, что в каждой подмаске
+                            # должен совпасть хотя бы один символ 
+                            [^\s,"{\[]++ # переменные, константы или числа (ведущий пробел тоже исключаем) 
+                            |
+                            "[^"]*+" # строки
+                            |
+                            ( \[ (?: [^\[\]]*+ | (?1) )* \] ) # JSON: обычные массивы (с числовыми ключами)
+                            |
+                            ( { (?: [^{}]*+ | (?2) )* } ) # JSON: ассоциативные массивы
+                            /x', 
+                            $m[2], 
+                            $tmp
                         );
-                        
+ 
                         if ($tmp) 
-                        $args = array_map( array($this, 'get_var_or_string'), $tmp[0] );
-                        
+                        $args = array_map( [$this, 'get_var_or_string'], $tmp[0] );
+ 
                         unset($tmp);
                     }
-                    
+ 
                     if (isset($call['function']))
                     $callback = $call['function'];
-                    
+ 
                     else {
-                        
+ 
                         if (isset($call['class']))
                         $callback[] = $call['class'];
                         else
                         $callback[] = $call['object'];
-                        
+ 
                         $callback[] = $call['method'];
                     }
-                    
+ 
                     $subvars = call_user_func_array($callback, $args);
-                    
+ 
                     if ( isset($m[3]) )  // передали указание на шаблон
                     $html = $this->call_template($m[3], $subvars);
-                    
+ 
                     else 
                     $html = $subvars; // шаблон не указан => функция возвращает строку
                 }
@@ -957,10 +951,9 @@ class Template {
         return $html;
     }
     
-    function parse_function($str) {
-        
-        
-        
+    public function parse_function($str)
+	{
+   
     }
     
     /**
@@ -968,7 +961,8 @@ class Template {
         * @param $vars
         * @return mixed
     */
-    function call_template($template_notation, $vars) {
+    public function call_template($template_notation, $vars) 
+	{
         if ($this->profiling) 
         $start = microtime(1);
         
@@ -984,17 +978,17 @@ class Template {
         /**
             * @var websun $subclass;
         */
-        $subobject = new $c(array(
-        'data' => $vars, 
-        'templates_root' => $this->templates_root_dir,
-        'predecessor' => $this,
-        'no_global_vars' => $this->no_global_vars,
-        'allowed_extensions' => $this->allowed_extensions, 
-        // 'profiling' => $this->profiling,
-        ));
-        
+        $subobject = new $c([
+            'data' => $vars, 
+            'templates_root' => $this->templates_root_dir,
+            'predecessor' => $this,
+            'no_global_vars' => $this->no_global_vars,
+            'allowed_extensions' => $this->allowed_extensions, 
+            // 'profiling' => $this->profiling,
+        ]);
+ 
         $template_notation = trim($template_notation);
-        
+ 
         if (mb_substr($template_notation, 0, 1) == '>') { 
             // шаблон прямо в переменной
             $v = mb_substr($template_notation, 1);
@@ -1006,66 +1000,68 @@ class Template {
             $subobject->templates_current_dir = pathinfo($this->template_real_path($path), PATHINFO_DIRNAME ) . '/';
             $subtemplate = $this->get_template($path);
         }
-        
+ 
         $result = $subobject->parse_template($subtemplate);
-        
+ 
         if ($this->profiling) 
         $this->write_time(__FUNCTION__, $start, microtime(1));
-        
+ 
         return $result;
     }
-    
+ 
     /**
         *
         * @param $str
         * @return array|bool|int|mixed|null|string
     */
-    function get_var_or_string($str) {
+    public function get_var_or_string($str)
+	{
         // используется, в основном, для получения имён шаблонов и функций
-        
+ 
         $str = trim($str);
-        
+ 
         if ($this->profiling) 
         $start = microtime(1);
-        
+ 
         $first_char = mb_substr($str, 0, 1);
-        
+ 
         if ($first_char == '*') // если вокруг есть звездочки - значит, перменная или константа
         $out = $this->var_value( mb_substr($str, 1, -1) ); 
-        
+ 
         elseif ($first_char == '[' OR $first_char == '{') { // JSON
             $out = json_decode($str, TRUE);
             $json_decode_status = json_last_error();
             if ($json_decode_status !== JSON_ERROR_NONE)
             trigger_error("Error (code = $json_decode_status) parsing JSON array literal $str", E_USER_WARNING);
         }
-        
+ 
         else // нет звездочек - значит, скалярный литерал
         $out = ($first_char == '"') 
         ? mb_substr($str, 1, -1) // в двойных кавычках - строка
         : $str ;  // число
-        
+ 
         if ($this->profiling) 
         $this->write_time(__FUNCTION__, $start, microtime(1));
-        
+ 
         return $out;
     }
-    
+ 
     /**
         *
         * @param $tpl
         * @return bool|mixed|string
     */
-    function get_template($tpl) {
+    public function get_template($tpl)
+	{
         if ($this->profiling) 
         $start = microtime(1);
-        
+ 
         if (!$tpl) return FALSE;
-        
+ 
         $tpl_real_path = $this->template_real_path($tpl);
-        
+ 
         $ext = pathinfo($tpl_real_path, PATHINFO_EXTENSION);
-        
+ 
         if (!in_array($ext, $this->allowed_extensions)) {
             trigger_error(
             "Template's <b>$tpl_real_path</b> extension is not in the allowed list (" 
@@ -1075,22 +1071,22 @@ class Template {
             );
             return '';
         }
-        
+ 
         // return rtrim(file_get_contents($tpl_real_path), "\r\n");
-        
+ 
         // (убираем перенос строки, присутствующий в конце любого файла)
         $out = preg_replace(
         '/\r?\n$/',
         '',
         file_get_contents($tpl_real_path)
         );
-        
+ 
         if ($this->profiling) 
         $this->write_time(__FUNCTION__, $start, microtime(1));
-        
+ 
         return $out;
     }
-    
+ 
     /**
         * Функция определяет реальный путь к шаблону в файловой системе
         * первый символ пути к шаблону определяет тип пути
@@ -1103,14 +1099,15 @@ class Template {
         * @param $tpl
         * @return string
     */
-    function template_real_path($tpl) {
+    public function template_real_path($tpl)
+	{
         if ($this->profiling)
         $start = microtime(1);
-        
+ 
         $dir_indicator = mb_substr($tpl, 0, 1);
-        
+ 
         $adjust_tpl_path = TRUE;
-        
+ 
         if ($dir_indicator == '^') $dir = $this->templates_root_dir;
         elseif ($dir_indicator == '$') $dir = $_SERVER['DOCUMENT_ROOT'];
         elseif ($dir_indicator == '/') { $dir = ''; $adjust_tpl_path = FALSE; } // абсолютный путь для ФС 
@@ -1119,26 +1116,27 @@ class Template {
             $dir = '';
             else  
             $dir = $this->templates_current_dir;  
-            
+ 
             $adjust_tpl_path = FALSE; // в обоих случаях строку к пути менять не надо
         }
         
         if ($adjust_tpl_path) $tpl = mb_substr($tpl, 1);
-        
+ 
         $tpl_real_path = $dir . $tpl;
-        
+ 
         if ($this->profiling) 
         $this->write_time(__FUNCTION__, $start, microtime(1));
-        
+ 
         return $tpl_real_path;
     }
-    
+ 
     /**
         * @param $method
         * @param $start
         * @param $end
     */
-    function write_time($method, $start, $end) {
+    public function write_time($method, $start, $end)
+	{
         //echo ($this->predecessor) . '<br>';
         
         if (!$this->predecessor)
@@ -1146,73 +1144,20 @@ class Template {
         
         else
         $time = &$this->predecessor->TIMES ;
-        
+ 
         if (!isset($time[$method]))
-        $time[$method] = array(
-        'n' => 0,
-        'last' => 0,
-        'total' => 0,
-        'avg' => 0
-        );
-        
+        $time[$method] = [
+            'n' => 0,
+            'last' => 0,
+            'total' => 0,
+            'avg' => 0
+        ];
+ 
         $time[$method]['n'] += 1;
         $time[$method]['last'] = round($end - $start, 4);
         $time[$method]['total'] += $time[$method]['last'];
         $time[$method]['avg'] = round($time[$method]['total'] / $time[$method]['n'], 4) ;
     }
-} // end class
-
-
-/**
-    * Функция-обёртка для быстрого вызова класса.
-    * принимает шаблон в виде пути к нему
-    *
-    * @param $data
-    * @param $template_path
-    * @param bool|FALSE $templates_root_dir
-    * @param bool|FALSE $no_global_vars
-    * @return mixed
-*/
-function websun_parse_template_path(
-$data, 
-$template_path, 
-$templates_root_dir = FALSE,
-$no_global_vars = FALSE
-// $profiling = FALSE - пока убрали
-) {
-    $W = new Template(array(
-    'data' => $data, 
-    'templates_root' => $templates_root_dir,
-    'no_global_vars' => $no_global_vars
-    ));
-    $tpl = $W->get_template($template_path);
-    $W->templates_current_dir = pathinfo( $W->template_real_path($template_path), PATHINFO_DIRNAME ) . '/';
-    $string = $W->parse_template($tpl);
-    return $string;
+ 
 }
-
-/**
-    * Функция-обёртка для быстрого вызова класса
-    * принимает шаблон непосредственно в виде кода
-    *
-    * @param $data
-    * @param $template_code
-    * @param bool|FALSE $templates_root_dir
-    * @param bool|FALSE $no_global_vars
-    * @return mixed
-*/
-function websun_parse_template(
-$data, 
-$template_code, 
-$templates_root_dir = FALSE,
-$no_global_vars = FALSE
-// profiling пока убрали
-) {
-    $W = new Template(array(
-    'data' => $data, 
-    'templates_root' => $templates_root_dir,
-    'no_global_vars' => $no_global_vars 
-    ));
-    $string = $W->parse_template($template_code);
-    return $string;
-}
+ 
