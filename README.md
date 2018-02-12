@@ -213,7 +213,7 @@ $template->render($render, $data);
 ## Поддержка, обратная связь, новости
 Общайтесь с нами через почту open.source@pllano.com
 
-Если вы нашли баг в работе templateProcessor загляните в
+Если вы нашли баг в работе TemplateEngine загляните в
 [issues](https://github.com/pllano/template-engine/issues), возможно, про него мы уже знаем и
 чиним. Если нет, лучше всего сообщить о нём там. Там же вы можете оставлять свои
 пожелания и предложения.
