@@ -13,7 +13,7 @@ Support for popular templates engine for the Slim Framework or API Shop
 ### Альтернативные
 - [`Webew`](http://webew.ru/articles/3609.webew) - идет в комплекте с TemplateEngine
 - [`Arhone`](https://github.com/arhone/template) - идет в комплекте с TemplateEngine
-Вы можете подключить свой шаблонизатор.
+- Вы можете подключить свой шаблонизатор
 ## Использование
 ### Выбор шаблонизатора
 Для переключения шаблонизатора достаточно передать его название конструктору в массиве конфигурации или изменить в файле конфигурации
