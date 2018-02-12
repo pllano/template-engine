@@ -4,13 +4,13 @@ Support for popular templates engine for the Slim Framework or API Shop
 Поддержка популярных шаблонизаторов для Slim Framework или API Shop
 ## Планируется поддержка всех популярных шаблонизаторов: 
 - [`Twig`](https://github.com/twigphp/Twig) - Original - по умолчанию
-- [`PhpRenderer`](https://github.com/slimphp/PHP-View) - Slim PHP-View
 - [`Smarty`](https://github.com/smarty-php/smarty) - Original
 - [`Blade`](https://github.com/illuminate/view) - в разработке
 - [`Fenom`](https://github.com/fenom-template/fenom) - Original
 - [`Dwoo`](https://github.com/dwoo-project/dwoo) - Original
 - [`Mustache`](https://github.com/bobthecow/mustache.php) - Original
 ### Альтернативные
+- [`PhpRenderer`](https://github.com/slimphp/PHP-View) - идет в комплекте с TemplateEngine как класс \Pllano\Adapter\Renderer\PhpRenderer
 - [`WebSun`](https://github.com/1234ru/websun) - идет в комплекте с TemplateEngine как класс \Pllano\Adapter\Renderer\WebSun
 - [`Arhone`](https://github.com/arhone/template) - идет в комплекте с TemplateEngine как класс \Pllano\Adapter\Renderer\Arhone
 - Вы можете подключить свой шаблонизатор. Описание ниже.
