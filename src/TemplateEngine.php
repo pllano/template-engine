@@ -13,10 +13,19 @@
  
 namespace Pllano\Adapter;
  
+// use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+ 
 use Pllano\Adapter\Renderer\PhpRenderer;
-// use Pllano\Adapter\Renderer\Smarty;
+use Pllano\Adapter\Renderer\Arhone\Template as Arhone;
+use Pllano\Adapter\Renderer\WebSun\Template as WebSun;
+// use Pllano\Adapter\Renderer\Twig;
 // use Pllano\Adapter\Renderer\Blade;
+// use Pllano\Adapter\Renderer\Smarty;
+// use Pllano\Adapter\Renderer\Dwoo;
+// use Pllano\Adapter\Renderer\Fenom;
+// use Pllano\Adapter\Renderer\Mustache;
+// use Pllano\Adapter\Renderer\Volt;
  
 class TemplateEngine
 {
@@ -26,16 +35,22 @@ class TemplateEngine
     protected $response;
     protected $render;
     protected $data;
-    protected $template_engine;
+    protected $template_engine = 'phprenderer';
     protected $renderer;
     protected $template;
     protected $install = null;
+    protected $vendor = 'PhpRenderer';
  
-    public function __construct($config = [], $template = null)
+    public function __construct($config = [], $template = null, $vendor = null)
     {
         // Подключаем конфиг из конструктора
         if(isset($config)) {
             $this->config = $config;
+        }
+        if(isset($vendor)) {
+			if (class_exists($vendor)) {
+                $this->vendor = $vendor;
+			}
         }
         if(isset($template)) {
             $this->template = $template;
@@ -48,11 +63,11 @@ class TemplateEngine
         }
         // Получаем название шаблонизатора
         if (isset($this->config['template']['front_end']['template_engine'])) {
-            $this->template_engine = $this->config['template']['front_end']['template_engine'];
-        } else {
-            $this->template_engine = null;
+            $this->template_engine = strtolower($this->config['template']['front_end']['template_engine']);
         }
+ 
         $this->renderer();
+ 
     }
  
     public function renderer()
@@ -61,7 +76,7 @@ class TemplateEngine
         $cache = false;
         $strict_variables = false;
         
-        $paths = $this->config["settings"]["themes"]["front_end_dir"]."/".$themes['templates']."/".$this->template."/layouts";
+        $template_dir = $this->config["settings"]["themes"]["front_end_dir"]."/".$themes['templates']."/".$this->template."/layouts";
  
         if ($this->install != null) {
             if (isset($this->template_engine)) {
@@ -71,21 +86,21 @@ class TemplateEngine
                     if (isset($this->config['template']['twig']['cache_state'])) {
                         if ((int)$this->config['template']['twig']['cache_state'] == 1) {
                             $cache = __DIR__ .''.$this->config['template']['twig']['cache_dir'];
+                            if (!file_exists($cache)) {mkdir($cache, 0777, true);}
                             $strict_variables = $this->config['template']['twig']['strict_variables'];
                         }
                     }
-                    $loader = new \Twig_Loader_Filesystem($paths);
+                    $loader = new \Twig_Loader_Filesystem($template_dir);
                     $this->renderer = new \Twig_Environment($loader, ['cache' => $cache, 'strict_variables' => $strict_variables]);
  
                 } elseif ($template_engine == 'blade') {
  
-                    $this->renderer = new Blade($paths, $this->config['template']['blade']['cache_dir']);
+                    $this->renderer = new Blade($template_dir, $this->config['template']['blade']['cache_dir']);
  
                 } elseif ($template_engine == 'smarty') {
  
                     $this->renderer = new \Smarty();
-                    $this->renderer->setTemplateDir($paths);
- 
+                    $this->renderer->setTemplateDir($template_dir);
                     if (isset($this->config['template']['smarty']['cache_state'])) {
                         if ((int)$this->config['template']['smarty']['cache_state'] == 1) {
                             if (isset($this->config['template']['smarty']['cache_dir'])) {
@@ -93,25 +108,59 @@ class TemplateEngine
                             }
                         }
                     }
- 
                     if (isset($this->config['template']['smarty']['compile_dir'])) {
                         $this->renderer->setCompileDir($this->config['template']['smarty']['compile_dir']);
                     }
- 
                     if (isset($this->config['template']['smarty']['plugins_dir'])) {
                         $this->renderer->addPluginsDir($this->config['template']['smarty']['plugins_dir']);
                     }
  
                 } elseif ($template_engine == 'mustache') {
-                    $this->renderer = null;
+ 
+                    $this->renderer = new \Mustache_Engine($this->config['template']['mustache']);
+ 
                 } elseif ($template_engine == 'phprenderer') {
-                    $this->renderer = new PhpRenderer($paths);
+ 
+                    $this->renderer = new PhpRenderer($template_dir);
+ 
                 } elseif ($template_engine == 'dwoo') {
+                
+                    $this->renderer = new \Dwoo\Core(); // Create a Dwoo core object
+                    $this->renderer->setCompileDir($this->config['template']['dwoo']['compile_dir']); // Folder to store compiled templates
+                    $this->renderer->setTemplateDir($template_dir); // Folder containing .tpl files
                      
                 } elseif ($template_engine == 'fenom') {
+ 
+                    $options = [];
+                    if($this->config['template']['fenom']['disable_cache'] == 1){
+                        $options['disable_cache'] = true;
+                    }
+                    if($this->config['template']['fenom']['force_compile'] == 1){
+                        $options['force_compile'] = true;
+                    }
+                    if($this->config['template']['fenom']['compile_check'] == 1){
+                        $options['compile_check'] = true;
+                    }
+ 
+                    $cache = __DIR__ .''.$this->config['template']['fenom']['cache_dir'];
+                    if (!file_exists($cache)) {mkdir($cache, 0777, true);}
+                    //$this->renderer = new \Fenom(new \Fenom\Provider($template_dir));
+                    //$this->renderer->setCompileDir($cache);
+                    //$this->renderer->setOptions($options);
+                    $this->renderer = \Fenom::factory($template_dir, $cache, $options);
                      
-                } elseif ($template_engine == 'volt') {
+                } elseif ($template_engine == 'websun') {
+                
+                    $this->renderer = new WebSun($this->config['template']['websun']);
                      
+                } elseif ($template_engine == 'arhone') {
+                
+                    $this->renderer = new Arhone($this->config['template']['arhone']);
+                     
+                } else {
+ 
+                    $this->renderer = new $this->vendor($this->config['template'][$template_engine]);
+ 
                 }
             }
             
@@ -151,21 +200,37 @@ class TemplateEngine
  
                 } elseif ($template_engine == 'mustache') {
  
-                    return $this->renderer->render($this->response, $this->render, $this->data);
+                    return $this->renderer->render($this->render, $this->data);
  
                 } elseif ($template_engine == 'dwoo') {
  
-                    return null;
- 
-                } elseif ($template_engine == 'volt') {
- 
-                    return null;
+                    return $this->renderer->get($this->render, $this->data);
  
                 } elseif ($template_engine == 'fenom') {
  
-                    return null;
+                    return $this->renderer->fetch($this->render, $this->data);
  
-                } 
+                } elseif ($template_engine == 'websun') {
+ 
+                    return $this->renderer->render($this->render, $this->data);
+ 
+                }  elseif ($template_engine == 'arhone') {
+ 
+                    return $this->renderer->render($this->render, $this->data);
+ 
+                } else {
+ 
+                    if(method_exists($this->renderer,'render')) {
+                        return $this->renderer->render($this->render, $this->data);
+                    } elseif(method_exists($this->renderer,'fetch')) {
+                        return $this->renderer->fetch($this->render, $this->data);
+                    } elseif(method_exists($this->renderer,'get')) {
+                        return $this->renderer->get($this->render, $this->data);
+                    } else {
+					    return null;
+					}
+ 
+                }
             } else {
                 $this->file_extension();
             }
@@ -179,21 +244,24 @@ class TemplateEngine
         if(isset($this->render)) {
             if (strripos($this->render, '.twig') === true || strripos($this->render, '.html') === true) {
                 $this->template_engine = 'twig';
-            } elseif (strripos($this->render, '.blade') === true) {
-                $this->template_engine = 'blade';
             } elseif (strripos($this->render, '.smarty') === true || strripos($this->render, '.tpl') === true) {
                 $this->template_engine = 'smarty';
+            } elseif (strripos($this->render, '.blade') === true) {
+                $this->template_engine = 'blade';
             } elseif (strripos($this->render, '.mustache') === true) {
                 $this->template_engine = 'mustache';
-            } elseif (strripos($this->render, '.volt') === true) {
-                $this->template_engine = 'volt';
             } elseif (strripos($this->render, '.dwoo') === true) {
                 $this->template_engine = 'dwoo';
-            } elseif (strripos($this->render, '.fenom') === true) { 
+            } elseif (strripos($this->render, '.fenom') === true) {
                 $this->template_engine = 'fenom';
             } elseif (strripos($this->render, '.phtml') === true || strripos($this->render, '.php') === true) {
                 $this->template_engine = 'phprenderer';
+            } elseif (strripos($this->render, '.websun') === true) {
+                $this->template_engine = 'websun';
+            } elseif (strripos($this->render, '.arhone') === true) {
+                $this->template_engine = 'arhone';
             }
+ 
             if(isset($this->template_engine)) {
                 $this->renderer();
             }
