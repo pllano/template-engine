@@ -11,8 +11,8 @@ Support for popular templates engine for the Slim Framework or API Shop
 - [`Dwoo`](https://github.com/dwoo-project/dwoo) - Original
 - [`Mustache`](https://github.com/bobthecow/mustache.php) - Original
 ### Альтернативные
-- [`WebSun`](https://github.com/1234ru/websun) - идет в комплекте с TemplateEngine как класс \Pllano\Adapter\TemplateEngine\WebSun
-- [`Arhone`](https://github.com/arhone/template) - идет в комплекте с TemplateEngine как класс \Pllano\Adapter\TemplateEngine\Arhone
+- [`WebSun`](https://github.com/1234ru/websun) - идет в комплекте с TemplateEngine как класс \Pllano\Adapter\Renderer\WebSun
+- [`Arhone`](https://github.com/arhone/template) - идет в комплекте с TemplateEngine как класс \Pllano\Adapter\Renderer\Arhone
 - Вы можете подключить свой шаблонизатор
 ## Использование
 ### Выбор шаблонизатора
@@ -24,12 +24,14 @@ $settings['template']['front_end']['template_engine'] = 'twig';
 Второй метод автоматический. Если не определен шаблонизатор в `$settings['template']['front_end']['template_engine']` то `TemplateEngine` будет определять шаблонизатор по расширению файла
 ```php
 $render = 'file_name.html'; // = twig
+// .php или .phtml = phprenderer
 // .html или .twig или .twig.tpl или .twig.* = twig
 // .blade или .blade.php или .blade.* = blade
 // .smarty или .smarty.php или .smarty.tpl или .smarty.* = smarty
 // .mustache или .mustache.php или .mustache.tpl или .mustache.* = mustache
 // .dwoo или .dwoo.php или .dwoo.tpl или .dwoo.* = dwoo
-// .php или .phtml = phprenderer
+// .websun или .websun.php или .websun.tpl или .websun.* = websun
+// .arhone или .arhone.php или .arhone.tpl или .arhone.* = arhone
 ```
 ### Конфигурация для шаблонизаторов
 ```php
@@ -170,6 +172,12 @@ $app->run();
             "cache_state": 0
         },
         "dwoo": {
+            "cache_state": 0
+        },
+        "websun": {
+            "cache_state": 0
+        },
+        "arhone": {
             "cache_state": 0
         }
     }
