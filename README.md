@@ -204,7 +204,6 @@ $app->run();
 ## Подключение своего шаблонизатора
 ```php
 use Pllano\Adapter\TemplateEngine as Template;
-// Конструктор принимает три аргумента
 // Конфигурацию
 $settings = [
     "template" => [
@@ -216,6 +215,7 @@ $settings = [
 ];
 // $template - название шаблона или null
 // $vendor - класс шаблонизатора \Vendor\Renderer\NameClass
+// Конструктор принимает три аргумента
 $template = new Template($settings, $template, $vendor);
 // $render = 'index.tpl'; // файл для рендера
 // $data = []; // массив данных
