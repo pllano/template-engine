@@ -118,7 +118,7 @@ $app->run();
             "themes": {
                 "template": "mini-mo",
                 "templates": "templates",
-                "dir_name": "\/..\/..\/themes"
+                "dir_name": "\/..\/themes"
             }
         },
         "back_end": {
@@ -126,35 +126,40 @@ $app->run();
             "themes": {
                 "template": "admin",
                 "templates": "templates",
-                "dir_name": "\/..\/..\/themes"
+                "dir_name": "\/..\/themes"
             }
+        },
+        "fenom": {
+            "cache_state": 0,
+            "cache_dir": "\/..\/cache\/_fenom_cache",
+            "disable_cache": 0,
+            "force_compile": 0,
+            "compile_check": 0
         },
         "twig": {
             "cache_state": 0,
             "strict_variables": 0,
-            "cache_dir": "\/..\/..\/cache\/_twig_cache"
+            "cache_dir": "\/..\/cache\/_twig_cache"
         },
         "blade": {
             "cache_state": 0,
-            "cache_dir": "\/..\/..\/cache\/_blade_cache"
+            "strict_variables": 0,
+            "cache_dir": "\/..\/cache\/_twig_cache"
         },
         "smarty": {
             "cache_state": 0,
-            "cache_dir": "\/..\/..\/cache\/_smarty_cache",
-            "compile_dir": 0,
-            "plugins_dir": 0
+            "cache_dir": "\/..\/cache\/_smarty_cache",
+            "compile_dir": "",
+            "plugins_dir": ""
         },
         "mustache": {
-            "cache_state": 0,
-            "cache_dir": "\/..\/..\/cache\/_mustache_cache"
+            "cache_state": 0
         },
         "volt": {
-            "cache_state": 0,
-            "cache_dir": "\/..\/..\/cache\/_volt_cache"
+            "cache_state": 0
         },
         "dwoo": {
-            "cache_state": 0,
-            "cache_dir": "\/..\/..\/cache\/_dwoo_cache"
+            "cache_state": 0
         }
     }
 }
