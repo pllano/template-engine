@@ -10,13 +10,12 @@ Support for popular templates engine for the Slim Framework or API Shop
 - [`Fenom`](https://github.com/fenom-template/fenom) - Original
 - [`Mustache`](https://github.com/bobthecow/mustache.php) - Original
 - `Blade` через [PhiloNL/Laravel-Blade](https://github.com/PhiloNL/Laravel-Blade) + [illuminate/view](https://github.com/illuminate/view) - в разработке
-- `Volt` через Phalcon\Mvc\View\Engine\Volt\Compiler - в разработке
 ## Использование
 ### Выбор шаблонизатора
 Для переключения шаблонизатора достаточно передать его название конструктору в массиве конфигурации или изменить в файле конфигурации
 ```php
 $settings['template']['front_end']['template_engine'] = 'twig';
-// или: phprenderer, smarty, dwoo, blade, mustache, fenom, volt
+// или: phprenderer, smarty, dwoo, blade, mustache, fenom
 ```
 Второй метод автоматический. Если не определен шаблонизатор в `$settings['template']['front_end']['template_engine']` то `TemplateEngine` будет определять шаблонизатор по расширению файла
 ```php
@@ -25,7 +24,6 @@ $render = 'file_name.html'; // = twig
 // .blade или .blade.php или .blade.* = blade
 // .smarty или .smarty.php или .smarty.tpl или .smarty.* = smarty
 // .mustache или .mustache.php или .mustache.tpl или .mustache.* = mustache
-// .volt или .volt.php или .volt.tpl или .volt.* = volt
 // .dwoo или .dwoo.php или .dwoo.tpl или .dwoo.* = dwoo
 // .php или .phtml = phprenderer
 ```
@@ -71,7 +69,7 @@ $app->run();
 ```
 ## Вывод в шаблоне
 
-### Twig, Mustache, Volt
+### Twig, Mustache
 ``` html
 <!DOCTYPE html>
 <html lang="en">
