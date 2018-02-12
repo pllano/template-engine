@@ -119,6 +119,25 @@ $app->run();
     </body>
 </html>
 ```
+### WebSun
+```
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        {*name*}
+    </body>
+</html>
+```
+### Arhone
+```
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <?=$name?>
+    </body>
+</html>
+```
+
 ## Конфигурация `config.json`
 ```json
 {
