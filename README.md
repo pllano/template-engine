@@ -189,7 +189,7 @@ use Pllano\Adapter\TemplateEngine as Template;
 // Конфигурацию
 $settings = [
     "template" => [
-        "name_vendor": [ // name_vendor (например twig)
+        "name_vendor": [ // в нижнем регистре, например twig
             "cache_state": 0, // активация кеша
             "cache_dir": "\/..\/cache\/_name_vendor_cache" // директория кеша
         ]
