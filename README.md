@@ -87,6 +87,15 @@ $app->run();
     </body>
 </html>
 ```
+### Fenom
+``` html
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        {$name}
+    </body>
+</html>
+```
 ### Blade
 ``` html
 <!DOCTYPE html>
