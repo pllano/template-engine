@@ -6,10 +6,14 @@ Support for popular templates engine for the Slim Framework or API Shop
 - [`Twig`](https://github.com/twigphp/Twig) - Original - по умолчанию
 - [`PhpRenderer`](https://github.com/slimphp/PHP-View) - Slim PHP-View
 - [`Smarty`](https://github.com/smarty-php/smarty) - Original
-- [`Dwoo`](https://github.com/dwoo-project/dwoo) - Original
+- [`Blade`](https://github.com/illuminate/view) - в разработке
 - [`Fenom`](https://github.com/fenom-template/fenom) - Original
+- [`Dwoo`](https://github.com/dwoo-project/dwoo) - Original
 - [`Mustache`](https://github.com/bobthecow/mustache.php) - Original
-- `Blade` через [PhiloNL/Laravel-Blade](https://github.com/PhiloNL/Laravel-Blade) + [illuminate/view](https://github.com/illuminate/view) - в разработке
+### Альтернативные
+- [`Webew`](http://webew.ru/articles/3609.webew) - идет в комплекте с TemplateEngine
+- [`Arhone`](https://github.com/arhone/template) - идет в комплекте с TemplateEngine
+Вы можете подключить свой шаблонизатор.
 ## Использование
 ### Выбор шаблонизатора
 Для переключения шаблонизатора достаточно передать его название конструктору в массиве конфигурации или изменить в файле конфигурации
