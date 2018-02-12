@@ -214,16 +214,16 @@ $template->render($render, $data);
 Общайтесь с нами через почту open.source@pllano.com
 
 Если вы нашли баг в работе templateProcessor загляните в
-[issues](https://github.com/pllano/template-processor/issues), возможно, про него мы уже знаем и
+[issues](https://github.com/pllano/template-engine/issues), возможно, про него мы уже знаем и
 чиним. Если нет, лучше всего сообщить о нём там. Там же вы можете оставлять свои
 пожелания и предложения.
 
 За новостями вы можете следить по
-[коммитам](https://github.com/pllano/template-processor/commits/master) в этом репозитории.
-[RSS](https://github.com/pllano/template-processor/commits/master.atom).
+[коммитам](https://github.com/pllano/template-engine/commits/master) в этом репозитории.
+[RSS](https://github.com/pllano/template-engine/commits/master.atom).
 
 Лицензия TemplateEngine
 -------
 
-The MIT License (MIT). Please see [LICENSE](https://github.com/pllano/template-processor/blob/master/LICENSE) for more information.
+The MIT License (MIT). Please see [LICENSE](https://github.com/pllano/template-engine/blob/master/LICENSE) for more information.
 
