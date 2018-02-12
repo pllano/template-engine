@@ -186,12 +186,12 @@ $app->run();
 ```php
 use Pllano\Adapter\TemplateEngine as Template;
 // Конструктор принимает три аргумента
-// Конфигурацию - name_vendor (например twig)
+// Конфигурацию
 $settings = [
     "template" => [
-        "name_vendor": [
-            "cache_state": 0,
-            "cache_dir": "\/..\/cache\/_name_vendor_cache"
+        "name_vendor": [ // name_vendor (например twig)
+            "cache_state": 0, // активация кеша
+            "cache_dir": "\/..\/cache\/_name_vendor_cache" // директория кеша
         ]
     ]
 ];
