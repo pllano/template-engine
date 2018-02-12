@@ -13,7 +13,7 @@ Support for popular templates engine for the Slim Framework or API Shop
 ### Альтернативные
 - [`WebSun`](https://github.com/1234ru/websun) - идет в комплекте с TemplateEngine как класс \Pllano\Adapter\Renderer\WebSun
 - [`Arhone`](https://github.com/arhone/template) - идет в комплекте с TemplateEngine как класс \Pllano\Adapter\Renderer\Arhone
-- Вы можете подключить свой шаблонизатор
+- Вы можете подключить свой шаблонизатор. Описание ниже.
 ## Использование
 ### Выбор шаблонизатора
 Для переключения шаблонизатора достаточно передать его название конструктору в массиве конфигурации или изменить в файле конфигурации
@@ -144,7 +144,6 @@ $app->run();
                 "dir_name": "\/..\/themes"
             }
         },
-
         "twig": {
             "cache_state": 0,
             "strict_variables": 0,
@@ -182,6 +181,28 @@ $app->run();
         }
     }
 }
+```
+## Подключение своего шаблонизатора
+```php
+use Pllano\Adapter\TemplateEngine as Template;
+// Конструктор принимает три аргумента
+// Конфигурацию - name_vendor (например twig)
+$settings = [
+    "template" => [
+        "name_vendor": [
+            "cache_state": 0,
+            "cache_dir": "\/..\/cache\/_name_vendor_cache"
+        ]
+    ]
+];
+// $template - название шаблона или null
+// $vendor - класс шаблонизатора \Vendor\Renderer\NameClass
+$template = new Template($settings, $template, $vendor);
+// $render = 'index.tpl'; // файл для рендера
+// $data = []; // массив данных
+// функцией получения данных должна быть одна из: render, fetch или get
+// Функция вывода должна принимать два аргумента $render и $data
+$template->render($render, $data);
 ```
 ## Поддержка, обратная связь, новости
 
