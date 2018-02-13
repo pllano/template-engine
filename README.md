@@ -15,7 +15,6 @@ Support for popular templates engine for the Slim Framework or API Shop
 - [`WebSun`](https://github.com/1234ru/websun) - идет в комплекте с TemplateEngine как класс \Pllano\Adapter\Renderer\WebSun
 - [`Liquid`](https://packagist.org/packages/liquid/liquid) - На рассмотрении
 - [`Arhone`](https://github.com/arhone/template) - На рассмотрении
-- [`Arhone`](https://github.com/arhone/template) - На рассмотрении
 - Вы можете подключить свой шаблонизатор. Описание ниже.
 ## Использование
 ### Выбор шаблонизатора
