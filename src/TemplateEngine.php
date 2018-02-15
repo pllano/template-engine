@@ -25,8 +25,35 @@ use Pllano\Adapter\Renderer\WebSun\Template as WebSun;
 // use Pllano\Adapter\Renderer\Dwoo;
 // use Pllano\Adapter\Renderer\Fenom;
 // use Pllano\Adapter\Renderer\Mustache;
-// use Pllano\Adapter\Renderer\Volt;
- 
+// https://packagist.org/packages/latte/latte
+
+// --- use Pllano\Adapter\Renderer\Volt;
+// https://packagist.org/packages/liquid/liquid
+// https://github.com/feulf/raintpl3
+// https://github.com/FoilPHP/Foil
+// https://github.com/Talesoft/tale-pug
+
+// https://packagist.org/packages/projek-xyz/slim-plates
+// https://github.com/EFTEC/BladeOne
+// https://packagist.org/packages/pagekit/razr
+// https://github.com/dermatthes/text-template
+
+// !! item !!
+// ?? item ??
+// $$ item $$
+// ## item ##
+// @@ item @@
+// ** item **
+// ^^ item ^^
+// ( item )
+// (( item ))
+// { item }
+// {{ item }}
+// [ item ]
+// [[ item ]]
+// html //
+/* html */
+
 class TemplateEngine
 {
     private $config;
