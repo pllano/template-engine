@@ -75,9 +75,9 @@ class TemplateEngine
             $this->config = $config;
         }
         if(isset($vendor)) {
-			if (class_exists($vendor)) {
+            if (class_exists($vendor)) {
                 $this->vendor = $vendor;
-			}
+            }
         }
         if(isset($template)) {
             $this->template = $template;
@@ -254,8 +254,8 @@ class TemplateEngine
                     } elseif(method_exists($this->renderer,'get')) {
                         return $this->renderer->get($this->render, $this->data);
                     } else {
-					    return null;
-					}
+                        return null;
+                    }
  
                 }
             } else {

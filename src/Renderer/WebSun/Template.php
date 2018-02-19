@@ -302,7 +302,7 @@ class Template
         * @param array $options[]
     */
     public function __construct($options)
-	{
+    {
         $this->vars = $options['data'];
         
         if (isset($options['templates_root']) AND $options['templates_root']) // корневой каталог шаблонов
@@ -346,7 +346,7 @@ class Template
         * @return mixed
     */
     public function parse_template($template)
-	{
+    {
         if ($this->profiling)
         $start = microtime(1);
         
@@ -432,7 +432,7 @@ class Template
         * @return array|bool|int|mixed|null|string
     */
     public function var_value($string)
-	{
+    {
         if ($this->profiling)
         $start = microtime(1);
  
@@ -533,7 +533,7 @@ class Template
         * @return mixed
     */
     public function find_and_parse_cycle($template)
-	{
+    {
         if ($this->profiling) 
         $start = microtime(1);
         // пришлось делать специальную функцию, чтобы реализовать рекурсию
@@ -560,7 +560,7 @@ class Template
         * @return bool|mixed|string
     */
     public function parse_cycle($matches)
-	{
+    {
         if ($this->profiling) 
         $start = microtime(1);
  
@@ -612,7 +612,7 @@ class Template
         * @return mixed
     */
     public function find_and_parse_if($template)
-	{ 
+    { 
         if ($this->profiling)
         $start = microtime(1);
  
@@ -650,7 +650,7 @@ class Template
         * @return mixed|string
     */
     public function parse_if($matches)
-	{
+    {
         # 1 - ? или ?!
         # 2 - условие
         # 3 - при положительном результате 
@@ -698,7 +698,7 @@ class Template
         * @return bool
     */
     public function check_if_condition_part($str)
-	{
+    {
         if ($this->profiling)
         $start = microtime(1);
  
@@ -755,7 +755,7 @@ class Template
         * @return mixed|string
     */
     public function parse_vars_templates_functions($matches)
-	{
+    {
         if ($this->profiling) 
         $start = microtime(1);
  
@@ -952,7 +952,7 @@ class Template
     }
     
     public function parse_function($str)
-	{
+    {
    
     }
     
@@ -962,7 +962,7 @@ class Template
         * @return mixed
     */
     public function call_template($template_notation, $vars) 
-	{
+    {
         if ($this->profiling) 
         $start = microtime(1);
         
@@ -1015,7 +1015,7 @@ class Template
         * @return array|bool|int|mixed|null|string
     */
     public function get_var_or_string($str)
-	{
+    {
         // используется, в основном, для получения имён шаблонов и функций
  
         $str = trim($str);
@@ -1052,7 +1052,7 @@ class Template
         * @return bool|mixed|string
     */
     public function get_template($tpl)
-	{
+    {
         if ($this->profiling) 
         $start = microtime(1);
  
@@ -1100,7 +1100,7 @@ class Template
         * @return string
     */
     public function template_real_path($tpl)
-	{
+    {
         if ($this->profiling)
         $start = microtime(1);
  
@@ -1136,7 +1136,7 @@ class Template
         * @param $end
     */
     public function write_time($method, $start, $end)
-	{
+    {
         //echo ($this->predecessor) . '<br>';
         
         if (!$this->predecessor)
