@@ -13,9 +13,6 @@
  
 namespace Pllano\Adapter;
  
-// use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
- 
 use Pllano\Adapter\Renderer\PhpRenderer;
 use Pllano\Adapter\Renderer\Arhone\Template as Arhone;
 use Pllano\Adapter\Renderer\WebSun\Template as WebSun;
@@ -59,7 +56,6 @@ class TemplateEngine
     private $config;
     protected $options;
     protected $loader;
-    protected $response;
     protected $render;
     protected $data;
     protected $template_engine = 'phprenderer';
@@ -200,9 +196,8 @@ class TemplateEngine
  
     }
  
-    public function render(Response $response, $render = null, $data = [])
+    public function render($render = null, $data = [])
     { 
-        $this->response = $response;
         if(isset($render)) {
             $this->render = $render;
         }
@@ -218,7 +213,7 @@ class TemplateEngine
  
                 } elseif ($template_engine == 'blade' || $template_engine == 'phprenderer') {
  
-                   return $this->renderer->render($this->response, $this->render, $this->data);
+                   return $this->renderer->render([], $this->render, $this->data);
  
                 } elseif ($template_engine == 'smarty') {
  
