@@ -112,9 +112,9 @@ class TemplateEngine
  
                     if (isset($this->config['template']['front_end']['cache'])) {
                         if ((int)$this->config['template']['front_end']['cache'] == 1) {
-                            $cache = __DIR__ .''.$this->package['twig.Twig']['settings']['cache_dir'];
+                            $cache = __DIR__ .''.$this->package['twig.twig']['settings']['cache_dir'];
                             if (!file_exists($cache)) {mkdir($cache, 0777, true);}
-                            $strict_variables = $this->package['twig.Twig']['settings']['strict_variables'];
+                            $strict_variables = $this->package['twig.twig']['settings']['strict_variables'];
                         }
                     }
                     $loader = new \Twig_Loader_Filesystem($template_dir);
