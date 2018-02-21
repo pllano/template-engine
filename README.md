@@ -1,5 +1,5 @@
 # Pllano\Adapter\TemplateEngine
-Support for popular templates engine for the Slim Framework or API Shop
+Support for popular templates engine for the Slim Framework 4.x or API Shop
 
 Поддержка популярных шаблонизаторов для Slim Framework или API Shop
 ## Планируется поддержка всех популярных шаблонизаторов: 
