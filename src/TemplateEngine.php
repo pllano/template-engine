@@ -99,7 +99,7 @@ class TemplateEngine
         $cache = false;
         $strict_variables = false;
         
-        $template_dir = $this->config["settings"]["themes"]["front_end_dir"]."/".$themes['templates']."/".$this->template."/layouts";
+        $template_dir = $this->config['template']['front_end']['themes']['dir']."/".$themes['templates']."/".$this->template."/layouts";
  
         if ($this->install != null) {
             if (isset($this->template_engine)) {
@@ -188,7 +188,7 @@ class TemplateEngine
             }
             
         } else {
-            $loader = new \Twig_Loader_Filesystem($this->config["settings"]["themes"]["front_end_dir"]."/".$themes['templates']."/install");
+            $loader = new \Twig_Loader_Filesystem($this->config['template']['front_end']['themes']['dir']."/".$themes['templates']."/install");
             $this->renderer = new \Twig_Environment($loader, ['cache' => false, 'strict_variables' => false]);
         }
  
