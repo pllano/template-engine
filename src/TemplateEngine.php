@@ -54,6 +54,7 @@ use Pllano\Adapter\Renderer\WebSun\Template as WebSun;
 class TemplateEngine
 {
     private $config;
+	private $package;
     protected $options;
     protected $loader;
     protected $render;
@@ -64,11 +65,14 @@ class TemplateEngine
     protected $install = null;
     protected $vendor = 'PhpRenderer';
  
-    public function __construct($config = [], $template = null, $vendor = null)
+    public function __construct($config = [], $package = [], $template = null, $vendor = null)
     {
         // Подключаем конфиг из конструктора
         if(isset($config)) {
             $this->config = $config;
+        }
+        if(isset($package)) {
+            $this->package = $package;
         }
         if(isset($vendor)) {
             if (class_exists($vendor)) {
@@ -106,11 +110,11 @@ class TemplateEngine
                 $template_engine = strtolower($this->template_engine);
                 if ($template_engine == 'twig') {
  
-                    if (isset($this->config['template']['twig']['cache_state'])) {
-                        if ((int)$this->config['template']['twig']['cache_state'] == 1) {
-                            $cache = __DIR__ .''.$this->config['template']['twig']['cache_dir'];
+                    if (isset($this->config['template']['front_end']['cache'])) {
+                        if ((int)$this->config['template']['front_end']['cache'] == 1) {
+                            $cache = __DIR__ .''.$this->package['twig.Twig']['settings']['cache_dir'];
                             if (!file_exists($cache)) {mkdir($cache, 0777, true);}
-                            $strict_variables = $this->config['template']['twig']['strict_variables'];
+                            $strict_variables = $this->package['twig.Twig']['settings']['strict_variables'];
                         }
                     }
                     $loader = new \Twig_Loader_Filesystem($template_dir);
@@ -118,29 +122,29 @@ class TemplateEngine
  
                 } elseif ($template_engine == 'blade') {
  
-                    $this->renderer = new Blade($template_dir, $this->config['template']['blade']['cache_dir']);
+                    $this->renderer = new Blade($template_dir, $this->package['blade.blade']['settings']['cache_dir']);
  
                 } elseif ($template_engine == 'smarty') {
  
                     $this->renderer = new \Smarty();
                     $this->renderer->setTemplateDir($template_dir);
-                    if (isset($this->config['template']['smarty']['cache_state'])) {
-                        if ((int)$this->config['template']['smarty']['cache_state'] == 1) {
-                            if (isset($this->config['template']['smarty']['cache_dir'])) {
-                                $this->renderer->setCacheDir($this->config['template']['smarty']['cache_dir']);
+                    if (isset($this->config['template']['front_end']['cache'])) {
+                        if ((int)$this->config['template']['front_end']['cache'] == 1) {
+                            if (isset($this->package['smarty.smarty']['settings']['cache_dir'])) {
+                                $this->renderer->setCacheDir($this->package['smarty.smarty']['settings']['cache_dir']);
                             }
                         }
                     }
                     if (isset($this->config['template']['smarty']['compile_dir'])) {
-                        $this->renderer->setCompileDir($this->config['template']['smarty']['compile_dir']);
+                        $this->renderer->setCompileDir($this->package['smarty.smarty']['settings']['compile_dir']);
                     }
                     if (isset($this->config['template']['smarty']['plugins_dir'])) {
-                        $this->renderer->addPluginsDir($this->config['template']['smarty']['plugins_dir']);
+                        $this->renderer->addPluginsDir($this->package['smarty.smarty']['settings']['plugins_dir']);
                     }
  
                 } elseif ($template_engine == 'mustache') {
  
-                    $this->renderer = new \Mustache_Engine($this->config['template']['mustache']);
+                    $this->renderer = new \Mustache_Engine($this->package['mustache.mustache']['settings']);
  
                 } elseif ($template_engine == 'phprenderer') {
  
@@ -149,23 +153,22 @@ class TemplateEngine
                 } elseif ($template_engine == 'dwoo') {
                 
                     $this->renderer = new \Dwoo\Core(); // Create a Dwoo core object
-                    $this->renderer->setCompileDir($this->config['template']['dwoo']['compile_dir']); // Folder to store compiled templates
+                    $this->renderer->setCompileDir($this->package['dwoo.dwoo']['settings']['compile_dir']); // Folder to store compiled templates
                     $this->renderer->setTemplateDir($template_dir); // Folder containing .tpl files
                      
                 } elseif ($template_engine == 'fenom') {
  
                     $options = [];
-                    if($this->config['template']['fenom']['disable_cache'] == 1){
+                    if($this->package['fenom.fenom']['settings']['disable_cache'] == 1){
                         $options['disable_cache'] = true;
                     }
-                    if($this->config['template']['fenom']['force_compile'] == 1){
+                    if($this->package['fenom.fenom']['settings']['force_compile'] == 1){
                         $options['force_compile'] = true;
                     }
-                    if($this->config['template']['fenom']['compile_check'] == 1){
+                    if($this->package['fenom.fenom']['settings']['compile_check'] == 1){
                         $options['compile_check'] = true;
                     }
- 
-                    $cache = __DIR__ .''.$this->config['template']['fenom']['cache_dir'];
+					$cache = __DIR__ .''.$this->package['fenom.fenom']['settings']['cache_dir'];
                     if (!file_exists($cache)) {mkdir($cache, 0777, true);}
                     //$this->renderer = new \Fenom(new \Fenom\Provider($template_dir));
                     //$this->renderer->setCompileDir($cache);
@@ -174,16 +177,23 @@ class TemplateEngine
                      
                 } elseif ($template_engine == 'websun') {
                 
-                    $this->renderer = new WebSun($this->config['template']['websun']);
+                    $this->renderer = new WebSun($this->package['websun.websun']['settings']);
                      
                 } elseif ($template_engine == 'arhone') {
                 
-                    $this->renderer = new Arhone($this->config['template']['arhone']);
+                    $this->renderer = new Arhone($this->package['arhone.arhone']['settings']);
                      
                 } else {
- 
-                    $this->renderer = new $this->vendor($this->config['template'][$template_engine]);
- 
+				    // Если подключается шаблонизатор для которого нет стандартной адаптации
+					// Шаблонизатору передается конфигурация из пакета
+					$template_package = [];
+					if (isset($this->config['template']['front_end']['template_package'])) {
+					    $template_package = $this->config['template']['front_end']['template_package'];
+						$this->renderer = new $this->vendor($this->package[$template_package]['settings']);
+					} else {
+					    // Если конфигурация не найдена
+					    $this->renderer = new $this->vendor();
+					}
                 }
             }
             
