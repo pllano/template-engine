@@ -100,14 +100,21 @@ class TemplateEngine
     public function renderer()
     {
         $themes = $this->config['template']['front_end']['themes'];
+		print_r($themes);
         $cache = false;
         $strict_variables = false;
- 
-		$template_dir = $this->config['template']['front_end']['themes']['dir']."".$themes['templates']."/".$this->template;
-		if (file_exists($this->config['template']['front_end']['themes']['dir']."".$themes['templates']."/".$this->template."/layouts.")) {
-            $template_dir = $this->config['template']['front_end']['themes']['dir']."".$themes['templates']."/".$this->template."/layouts";
+
+		$template_dir = null;
+		if (file_exists($themes['dir']."".$themes['templates']."/".$this->template."/layouts")) {
+            $template_dir = $themes['dir']."".$themes['templates']."/".$this->template."/layouts";
+		} elseif (file_exists($themes['dir']."".$themes['templates']."/".$this->template."/layout")) {
+            $template_dir = $themes['dir']."".$themes['templates']."/".$this->template."/layout";
+		} elseif (file_exists($themes['dir']."".$themes['templates']."/".$this->template)) {
+		    $template_dir = $themes['dir']."".$themes['templates']."/".$this->template;
+		} elseif (file_exists($themes['dir']."/".$this->template)) {
+		    $template_dir = $themes['dir']."/".$this->template;
 		}
- 
+
         if ($this->install != null) {
             if (isset($this->template_engine)) {
                 $template_engine = strtolower($this->template_engine);
