@@ -100,7 +100,6 @@ class TemplateEngine
     public function renderer()
     {
         $themes = $this->config['template']['front_end']['themes'];
-		print_r($themes);
         $cache = false;
         $strict_variables = false;
 
