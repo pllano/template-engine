@@ -55,7 +55,7 @@ namespace Pllano\Adapter\Renderer\WebSun;
     
     0.1.80 - allowed_extensions option implemented
     
-    0.1.71 - replaced too new array declaration [] with array() - keeping PHP 5.3 compatibility
+    0.1.71 - replaced too new array declaration [] with [] - keeping PHP 5.3 compatibility
     
     0.1.70 - added :^N and :^i 
     
@@ -414,7 +414,7 @@ class Template
     //     // # ДОБАВИТЬ КЛАССЫ ПОТОМ
     //     // $args = (isset($matches['args'])) 
     //     //     // ? explode(',', mb_substr($matches['args'], 1, -1) ) // убираем скобки
-    //     //     // : array();
+    //     //     // : [];
     //     // $this->vars = array_merge(
     //     //     // $this->vars, 
     //     //     // call_user_func_array($module_name, $args)

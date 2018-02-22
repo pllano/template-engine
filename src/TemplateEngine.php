@@ -62,7 +62,7 @@ class TemplateEngine
     protected $template_engine = 'phprenderer';
     protected $renderer;
     protected $template;
-    protected $install = null;
+    protected $install = true;
     protected $vendor = 'PhpRenderer';
  
     public function __construct($config = [], $package = [], $template = null, $vendor = null)
@@ -102,8 +102,11 @@ class TemplateEngine
         $themes = $this->config['template']['front_end']['themes'];
         $cache = false;
         $strict_variables = false;
-        
-        $template_dir = $this->config['template']['front_end']['themes']['dir']."/".$themes['templates']."/".$this->template."/layouts";
+ 
+		$template_dir = $this->config['template']['front_end']['themes']['dir']."".$themes['templates']."/".$this->template;
+		if (file_exists($this->config['template']['front_end']['themes']['dir']."".$themes['templates']."/".$this->template."/layouts.")) {
+            $template_dir = $this->config['template']['front_end']['themes']['dir']."".$themes['templates']."/".$this->template."/layouts";
+		}
  
         if ($this->install != null) {
             if (isset($this->template_engine)) {
