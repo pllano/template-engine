@@ -10,7 +10,7 @@
     * file that was distributed with this source code.
 */
  
-namespace Pllano\Adapter\Renderer\WebSun;
+namespace Pllano\Adapters\Template\Renderer\WebSun;
  
 /**
     * Websun template parser by Mikhail Serov (1234ru at gmail.com)

@@ -1,6 +1,6 @@
 {
     "require": [{
-            "namespace": "Pllano\\Adapter",
+            "namespace": "Pllano\\Adapters\\Template",
             "dir": "/pllano/template-engine/src",
             "link": "https://github.com/pllano/template-engine/archive/master.zip",
             "git": "https://github.com/pllano/template-engine",

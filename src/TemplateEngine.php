@@ -11,11 +11,11 @@
  * file that was distributed with this source code.
  */
  
-namespace Pllano\Adapter;
+namespace Pllano\Adapters\Template;
  
-use Pllano\Adapter\Renderer\PhpRenderer;
-use Pllano\Adapter\Renderer\Arhone\Template as Arhone;
-use Pllano\Adapter\Renderer\WebSun\Template as WebSun;
+use Pllano\Adapters\Template\Renderer\PhpRenderer;
+use Pllano\Adapters\Template\Renderer\Arhone\Template as Arhone;
+use Pllano\Adapters\Template\Renderer\WebSun\Template as WebSun;
 // use Pllano\Adapter\Renderer\Twig;
 // use Pllano\Adapter\Renderer\Blade;
 // use Pllano\Adapter\Renderer\Smarty;
@@ -104,14 +104,16 @@ class TemplateEngine
         $strict_variables = false;
 
 		$template_dir = null;
-		if (file_exists($themes['dir']."".$themes['templates']."/".$this->template."/layouts")) {
-            $template_dir = $themes['dir']."".$themes['templates']."/".$this->template."/layouts";
-		} elseif (file_exists($themes['dir']."".$themes['templates']."/".$this->template."/layout")) {
-            $template_dir = $themes['dir']."".$themes['templates']."/".$this->template."/layout";
-		} elseif (file_exists($themes['dir']."".$themes['templates']."/".$this->template)) {
-		    $template_dir = $themes['dir']."".$themes['templates']."/".$this->template;
+		if (file_exists($themes['dir']."/".$themes['templates']."/".$this->template."/layouts")) {
+            $template_dir = $themes['dir']."/".$themes['templates']."/".$this->template."/layouts";
+		} elseif (file_exists($themes['dir']."/".$themes['templates']."/".$this->template."/layout")) {
+            $template_dir = $themes['dir']."/".$themes['templates']."/".$this->template."/layout";
+		} elseif (file_exists($themes['dir']."/".$themes['templates']."/".$this->template)) {
+		    $template_dir = $themes['dir']."/".$themes['templates']."/".$this->template;
 		} elseif (file_exists($themes['dir']."/".$this->template)) {
 		    $template_dir = $themes['dir']."/".$this->template;
+		} else {
+		    print("Critical error: Folder template_dir not found");
 		}
 
         if ($this->install != null) {

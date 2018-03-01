@@ -12,7 +12,7 @@
  
 declare(strict_types = 1);
  
-namespace Pllano\Adapter\Renderer\Arhone;
+namespace Pllano\Adapters\Template\Renderer\Arhone;
  
 /**
  * Шаблонизатор

@@ -1,4 +1,4 @@
-# Pllano\Adapter\TemplateEngine
+# Pllano\Adapters\Template\TemplateEngine
 Support for popular templates engine for the Slim Framework 4.x or API Shop
 
 Поддержка популярных шаблонизаторов для Slim Framework или API Shop
@@ -10,9 +10,9 @@ Support for popular templates engine for the Slim Framework 4.x or API Shop
 - [`Dwoo`](https://github.com/dwoo-project/dwoo) - Original
 - [`Mustache`](https://github.com/bobthecow/mustache.php) - Original
 - [`Fenom`](https://github.com/fenom-template/fenom) - Original
-- [`PhpRenderer`](https://github.com/slimphp/PHP-View) - идет в комплекте с TemplateEngine как класс \Pllano\Adapter\Renderer\PhpRenderer
+- [`PhpRenderer`](https://github.com/slimphp/PHP-View) - идет в комплекте с TemplateEngine как класс \Pllano\Adapters\Template\Renderer\PhpRenderer
 ### Альтернативные
-- [`WebSun`](https://github.com/1234ru/websun) - идет в комплекте с TemplateEngine как класс \Pllano\Adapter\Renderer\WebSun
+- [`WebSun`](https://github.com/1234ru/websun) - идет в комплекте с TemplateEngine как класс \Pllano\Adapters\Template\Renderer\WebSun
 - [`Liquid`](https://packagist.org/packages/liquid/liquid) - На рассмотрении
 - [`Arhone`](https://github.com/arhone/template) - На рассмотрении
 - Вы можете подключить свой шаблонизатор. Описание ниже.
@@ -41,7 +41,7 @@ require __DIR__ . '/../vendor/autoload.php';
  
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
-use Pllano\Adapter\TemplateEngine as Template;
+use Pllano\Adapters\Template\TemplateEngine as Template;
  
 // Конфигурация
 $settings = json_decode(file_get_contents(__DIR__ . '/../../config.json'), true);
@@ -205,7 +205,7 @@ $app->run();
 ```
 ## Подключение своего шаблонизатора
 ```php
-use Pllano\Adapter\TemplateEngine as Template;
+use Pllano\Adapters\Template\TemplateEngine as Template;
 // Конфигурацию
 $settings = [
     "template" => [

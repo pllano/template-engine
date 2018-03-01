@@ -18,7 +18,7 @@
  * @license   https://github.com/slimphp/PHP-View/blob/master/LICENSE.md (MIT License)
  */
  
-namespace Pllano\Adapter\Renderer;
+namespace Pllano\Adapters\Template\Renderer;
  
 use \InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
