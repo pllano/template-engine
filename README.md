@@ -38,16 +38,23 @@ $render = 'file_name.html'; // = twig
 ### Конфигурация для шаблонизаторов
 ```php
 require __DIR__ . '/../vendor/autoload.php';
+<<<<<<< HEAD
  
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Pllano\Adapters\Template\TemplateEngine as Template;
  
+=======
+
+use Psr\Http\Message\{ServerRequestInterface as Request, ResponseInterface as Response};
+use Pllano\Adapter\TemplateEngine as Template;
+
+>>>>>>> 16932506b3eac9471fa50311c4286678dfee881d
 // Конфигурация
 $settings = json_decode(file_get_contents(__DIR__ . '/../../config.json'), true);
- 
+
 $app = new \Slim\App($settings);
- 
+
 $container = $app->getContainer();
  
 $container['view'] = function () {
