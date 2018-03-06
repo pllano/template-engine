@@ -62,12 +62,13 @@ class TemplateEngine
     protected $template_engine = 'phprenderer';
     protected $renderer;
     protected $template;
+	protected $template_dir;
     protected $install = true;
     protected $vendor = 'PhpRenderer';
  
     public function __construct($config = [], $package = [], $template = null, $vendor = null)
     {
-        // Подключаем конфиг из конструктора
+		// Подключаем конфиг из конструктора
         if(isset($config)) {
             $this->config = $config;
         }
@@ -85,23 +86,23 @@ class TemplateEngine
             $this->template = $this->config['template']['front_end']['themes']['template'];
         }
         // Подключаем конфиг из конструктора
-        if(isset($config['settings']["install"]["status"])) {
-            $this->install = $config['settings']["install"]["status"];
+        if(isset($this->config['settings']["install"]["status"])) {
+            $this->install = $this->config['settings']["install"]["status"];
         }
         // Получаем название шаблонизатора
         if (isset($this->config['template']['front_end']['template_engine'])) {
             $this->template_engine = strtolower($this->config['template']['front_end']['template_engine']);
         }
- 
+
         $this->renderer();
- 
     }
- 
+
     public function renderer()
     {
         $themes = $this->config['template']['front_end']['themes'];
         $cache = false;
         $strict_variables = false;
+
 
 		$template_dir = null;
 		if (file_exists($themes['dir']."/".$themes['templates']."/".$this->template."/layouts")) {
@@ -115,6 +116,9 @@ class TemplateEngine
 		} else {
 		    print("Critical error: Folder template_dir not found");
 		}
+		
+		$template_dir = str_replace("//", "/", $template_dir);
+		$this->template_dir = $template_dir;
 
         if ($this->install != null) {
             if (isset($this->template_engine)) {
@@ -212,7 +216,7 @@ class TemplateEngine
             $loader = new \Twig_Loader_Filesystem($this->config['template']['front_end']['themes']['dir']."/".$themes['templates']."/install");
             $this->renderer = new \Twig_Environment($loader, ['cache' => false, 'strict_variables' => false]);
         }
- 
+
         return $this->renderer;
  
     }
@@ -229,12 +233,13 @@ class TemplateEngine
             if (isset($this->template_engine)) {
                 $template_engine = strtolower($this->template_engine);
                 if ($template_engine == 'twig') {
- 
+					// print("<br>{$this->template_dir}/{$this->render}<br>");
+					//print_r($this->render);
                     return $this->renderer->render($this->render, $this->data);
  
                 } elseif ($template_engine == 'blade' || $template_engine == 'phprenderer') {
  
-                   return $this->renderer->render([], $this->render, $this->data);
+                    return $this->renderer->render([], $this->render, $this->data);
  
                 } elseif ($template_engine == 'smarty') {
  
